@@ -1,0 +1,718 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="开源框架学习," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="简介
+Bolts是一个用于简化移动开发app的轻量级函数库集合，是由Parse和Facebook编写来进行内部使用的，后来他们决定开源，提供给广大开发者使用。“Tasks”，使复杂的异步代码结构变得易于管理。“Task”的作用在Android和ios中就像是JavaScript的Promise。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bolts框架在安卓中的简单应用">
+<meta property="og:url" content="http://yoursite.com/2016/11/16/Bolts框架在安卓中的简单应用/index.html">
+<meta property="og:site_name" content="CkerV's Blog">
+<meta property="og:description" content="简介
+Bolts是一个用于简化移动开发app的轻量级函数库集合，是由Parse和Facebook编写来进行内部使用的，后来他们决定开源，提供给广大开发者使用。“Tasks”，使复杂的异步代码结构变得易于管理。“Task”的作用在Android和ios中就像是JavaScript的Promise。">
+<meta property="og:updated_time" content="2016-11-16T08:08:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bolts框架在安卓中的简单应用">
+<meta name="twitter:description" content="简介
+Bolts是一个用于简化移动开发app的轻量级函数库集合，是由Parse和Facebook编写来进行内部使用的，后来他们决定开源，提供给广大开发者使用。“Tasks”，使复杂的异步代码结构变得易于管理。“Task”的作用在Android和ios中就像是JavaScript的Promise。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Bolts框架在安卓中的简单应用 | CkerV's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">CkerV's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-question-circle fa-fw"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Bolts框架在安卓中的简单应用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-16T16:02:34+08:00" content="2016-11-16">
+              2016-11-16
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
+<li>Bolts是一个用于简化移动开发app的轻量级函数库集合，是由Parse和Facebook编写来进行内部使用的，后来他们决定开源，提供给广大开发者使用。“Tasks”，使复杂的异步代码结构变得易于管理。“Task”的作用在Android和ios中就像是JavaScript的Promise。<a id="more"></a>
+</li>
+</ul>
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">dependencies</span> &#123;</div><div class="line">   <span class="keyword">compile</span> <span class="string">'com.parse.bolts:bolts-tasks:1.4.0'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="Tasks"><a href="#Tasks" class="headerlink" title="Tasks"></a>Tasks</h1><ul>
+<li>一个Task代表一个<strong>异步</strong>操作。Task用于继续处理操作返回的结果，是由异步操作返回的。</li>
+<li>当一个Task被函数返回，它已经开始完成它的任务了。Task不与特定的线程模型进行绑定：它代表的是一个操作被完成，而不是一个操作正在被执行。</li>
+</ul>
+<h1 id="Tasks相比于其他异步方法的优势"><a href="#Tasks相比于其他异步方法的优势" class="headerlink" title="Tasks相比于其他异步方法的优势"></a>Tasks相比于其他异步方法的优势</h1><ul>
+<li><p>Task占用更少的系统资源，因为Task在等待其他Tasks的时候不占用线程</p>
+</li>
+<li><p>执行一系列Task的时候不需要像你使用CallBack时一样写出金字塔式的嵌套代码</p>
+</li>
+<li><p>Task是可以组合的，允许你执行分支、并行和复合型的错误处理，不需要用到嵌套的代码和各种复杂命名的CallBack</p>
+</li>
+<li><p>你可以<strong>有序</strong>的整理你基于任务的代码并执行它们，而不是将你的逻辑分散在凌乱的回调函数中。</p>
+</li>
+</ul>
+<h1 id="相关线程"><a href="#相关线程" class="headerlink" title="相关线程"></a>相关线程</h1><ul>
+<li>我们知道，Bolts的核心是异步，那么与RxJava类似，我们可以决定我们的代码应该运行在UI线程，还是当前线程，还是后台线程，因此Task类中定义了几种线程池，方便我们在使用这个框架的时候作为一个参数传进去实现在不同的线程中调用我们的代码，这几种线程池代码如下:</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">  * An &#123;<span class="doctag">@link</span> java.util.concurrent.Executor&#125; that executes tasks in parallel.</div><div class="line">  */</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> ExecutorService BACKGROUND_EXECUTOR = BoltsExecutors.background();</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * An &#123;<span class="doctag">@link</span> java.util.concurrent.Executor&#125; that executes tasks in the current thread unless</div><div class="line"> * the stack runs too deep, at which point it will delegate to &#123;<span class="doctag">@link</span> Task#BACKGROUND_EXECUTOR&#125; in</div><div class="line"> * order to trim the stack.</div><div class="line"> */</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Executor IMMEDIATE_EXECUTOR = BoltsExecutors.immediate();</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * An &#123;<span class="doctag">@link</span> java.util.concurrent.Executor&#125; that executes tasks on the UI thread.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Executor UI_THREAD_EXECUTOR = AndroidExecutors.uiThread();</div></pre></td></tr></table></figure>
+<ul>
+<li><p>BACKGROUND_EXECUTOR  是运行在后台线程。</p>
+</li>
+<li><p>IMMEDIATE_EXECUTOR按照我的理解是运行在当前线程（这个我不确定，因为没用到过因此没有测试，但是应该没错）</p>
+</li>
+<li><p>UI_THREAD_EXECUTOR 是运行在UI线程（即主线程）</p>
+</li>
+</ul>
+<h1 id="运行单个任务"><a href="#运行单个任务" class="headerlink" title="运行单个任务"></a>运行单个任务</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Task.call(<span class="keyword">new</span> Callable&lt;Bitmap&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> Bitmap <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;<span class="comment">//这里可以返回空值，把返回类型设为Void即可,返回其他类型的用法将在下面提到</span></div><div class="line">            <span class="comment">//你要执行的代码</span></div><div class="line">	    Bitmap bitmap = getImageFromWeb();</div><div class="line">            <span class="keyword">return</span> bitmap;    <span class="comment">//这里返回的bitmap将在下面讲到的任务执行结果中&lt;/span&gt;</span></div><div class="line">        &#125;</div><div class="line">    &#125;, Task.BACKGROUND_EXECUTOR);<span class="comment">//这里的参数可以参考上面填入别的线程池，控制这段代码在哪个线程运行</span></div></pre></td></tr></table></figure>
+<h1 id="“continueWith”方法"><a href="#“continueWith”方法" class="headerlink" title="“continueWith”方法"></a>“continueWith”方法</h1><ul>
+<li>每一个Task都有一个方法叫做continueWith并且它带有一个参数Continuation。Continuation是一个你需要实现的接口，你需要实现它的方法then。Then方法会在Task完成后被调用，你可以通过这个方法来检查Task是否成功以及获得它的结果。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">Task.call(<span class="keyword">new</span> Callable&lt;Bitmap&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> Bitmap <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;<span class="comment">//这里可以返回空值，把返回类型设为Void即可,返回其他类型的用法将在下面提到</span></div><div class="line">                <span class="comment">//你要执行的代码</span></div><div class="line">                Bitmap bitmap = getImageFromWeb();</div><div class="line">                <span class="keyword">return</span> bitmap;    <span class="comment">//这里返回的bitmap将在下面讲到的任务执行结果处理中</span></div><div class="line">            &#125;</div><div class="line">        &#125;, Task.BACKGROUND_EXECUTOR)<span class="comment">//在后台线程中运行</span></div><div class="line">                .continueWith(<span class="keyword">new</span> Continuation&lt;Bitmap, Void&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> Void <span class="title">then</span><span class="params">(Task&lt;Bitmap&gt; task)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        <span class="comment">// set ui</span></div><div class="line">                        <span class="keyword">if</span> (task.isFaulted()) &#123;</div><div class="line">                        Exception exc = task.getError();<span class="comment">//图片加载失败，进行错误处理                                                                     </span></div><div class="line">                        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (task.isCompleted()) &#123;</div><div class="line">                            <span class="comment">//图片加载成功</span></div><div class="line">                            setImage(task.getResult());<span class="comment">//task.getResult()是获取上面执行任务成功后返回结果的方法</span></div><div class="line">                        &#125;</div><div class="line">                        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">                    &#125;</div><div class="line">                &#125;, Task.UI_THREAD_EXECUTOR);<span class="comment">//在UI线程中运行</span></div></pre></td></tr></table></figure>
+<h1 id="“onSuccess”方法"><a href="#“onSuccess”方法" class="headerlink" title="“onSuccess”方法"></a>“onSuccess”方法</h1><ul>
+<li>如果我们只需要关心上一个任务执行成功才要进行处理，那么我们可以用.onSuccess方法来代替.continueWith方法，具体用法如下：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">Task.call(<span class="keyword">new</span> Callable&lt;Bitmap&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> Bitmap <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;<span class="comment">//需要返回一个Bitmap</span></div><div class="line">                <span class="comment">//你要执行的代码</span></div><div class="line">                Bitmap bitmap = getImageFromWeb();</div><div class="line">                <span class="keyword">return</span> bitmap;    <span class="comment">//这里返回的bitmap将在下面讲到的任务执行结果中</span></div><div class="line">            &#125;</div><div class="line">        &#125;, Task.BACKGROUND_EXECUTOR)<span class="comment">//后台线程运行</span></div><div class="line">                .onSuccess(<span class="keyword">new</span> Continuation&lt;Bitmap, Object&gt;() &#123;</div><div class="line"></div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> Void <span class="title">then</span><span class="params">(Task&lt;Bitmap&gt; task)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                            <span class="comment">//图片加载成功</span></div><div class="line">                            setImage(task.getResult());<span class="comment">//将图片显示出来</span></div><div class="line">                        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">                    &#125;</div><div class="line">                &#125;, Task.UI_THREAD_EXECUTOR);<span class="comment">//主线程运行</span></div></pre></td></tr></table></figure>
+<h1 id="执行并行任务"><a href="#执行并行任务" class="headerlink" title="执行并行任务"></a>执行并行任务</h1><ul>
+<li>除了顺序执行任务，我们还可以并行执行任务，下面的代码中，任务1创建了任务2和任务3用于并列执行，当两个任务都执行结束的时候会调用任务4进行结果处理。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">Task.call(<span class="keyword">new</span> Callable&lt;List&lt;Task&lt;Bitmap&gt;&gt;&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="keyword">public</span> List&lt;Task&lt;Bitmap&gt;&gt; call() <span class="keyword">throws</span> Exception &#123;</div><div class="line">                List&lt;Task&lt;Bitmap&gt;&gt; tasks = <span class="keyword">new</span> ArrayList&lt;Task&lt;Bitmap&gt;&gt;();</div><div class="line">                Task&lt;Bitmap&gt; task1 = Task.call(<span class="keyword">new</span> Callable&lt;Bitmap&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> Bitmap <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        <span class="comment">// 任务2</span></div><div class="line">                        <span class="keyword">return</span> getImageFromWeb();</div><div class="line">                    &#125;</div><div class="line">                &#125;, Task.BACKGROUND_EXECUTOR);</div><div class="line"></div><div class="line">                Task&lt;Bitmap&gt; task2 = Task.call(<span class="keyword">new</span> Callable&lt;Bitmap&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> Bitmap <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        <span class="comment">// 任务3</span></div><div class="line">                        <span class="keyword">return</span> getImageFromWeb();</div><div class="line">                    &#125;</div><div class="line">                &#125;, Task.BACKGROUND_EXECUTOR);</div><div class="line">                tasks.add(task1);</div><div class="line">                tasks.add(task2);</div><div class="line">                Task.whenAll(tasks).waitForCompletion();</div><div class="line">                <span class="keyword">return</span> tasks;    <span class="comment">//这里返回的</span></div><div class="line">            &#125;</div><div class="line">        &#125;, Task.BACKGROUND_EXECUTOR)<span class="comment">//后台线程运行</span></div><div class="line">                .continueWith(<span class="keyword">new</span> Continuation&lt;List&lt;Task&lt;Bitmap&gt;&gt;, Void&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> Void <span class="title">then</span><span class="params">(Task&lt;List&lt;Task&lt;Bitmap&gt;&gt;&gt; task)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        <span class="comment">// 任务4</span></div><div class="line">                        <span class="keyword">if</span> (task.isFaulted()) &#123;</div><div class="line">                            <span class="comment">//进行错误处理</span></div><div class="line">                            Exception exception = task.getError();</div><div class="line">                        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (task.isCompleted()) &#123;</div><div class="line">                            <span class="comment">//取出两个并列执行的Task，获取执行结束的返回值</span></div><div class="line">                            <span class="keyword">for</span>(Task&lt;Bitmap&gt; t:task.getResult())&#123;</div><div class="line">                                <span class="keyword">if</span>(t.isCompleted())&#123;</div><div class="line">                                    <span class="comment">//task执行成功</span></div><div class="line">                                    setImage(t.getResult());</div><div class="line">                                &#125;</div><div class="line">                            &#125;</div><div class="line">                        &#125;</div><div class="line">                        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">                    &#125;</div><div class="line">                &#125;, Task.UI_THREAD_EXECUTOR);<span class="comment">//主线程运行</span></div></pre></td></tr></table></figure>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><ul>
+<li>task执行continueWith之前还可以进行延时，只需要在调用continueWith之前调用.delay(time)即可。</li>
+</ul>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ul>
+<li>个人感觉Bolts框架的使用和RxJava还是许多相似之处的，简单的链式调用可以让逻辑的处理看起来更加清晰易懂，避免了在业务逻辑较复杂的情况产生的多重嵌套Callback，因此在重构的项目使用了此框架，以上内容参考自网上自己学习再加以总结记录，望有不足之处请指出一起探讨O(∩_∩)O</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/开源框架学习/" rel="tag">#开源框架学习</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/26/WebView播放Html5视频/" rel="next" title="WebView播放Html5视频">
+                <i class="fa fa-chevron-left"></i> WebView播放Html5视频
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/my.jpg"
+               alt="CkerV" />
+          <p class="site-author-name" itemprop="name">CkerV</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+          
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下载"><span class="nav-number">2.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tasks"><span class="nav-number">3.</span> <span class="nav-text">Tasks</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tasks相比于其他异步方法的优势"><span class="nav-number">4.</span> <span class="nav-text">Tasks相比于其他异步方法的优势</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相关线程"><span class="nav-number">5.</span> <span class="nav-text">相关线程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#运行单个任务"><span class="nav-number">6.</span> <span class="nav-text">运行单个任务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#“continueWith”方法"><span class="nav-number">7.</span> <span class="nav-text">“continueWith”方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#“onSuccess”方法"><span class="nav-number">8.</span> <span class="nav-text">“onSuccess”方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#执行并行任务"><span class="nav-number">9.</span> <span class="nav-text">执行并行任务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">10.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">11.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CkerV</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+  
+
+
+</body>
+</html>
