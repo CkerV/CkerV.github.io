@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://yoursite.com">
+  <title>WebView播放Html5视频 | CkerV&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言
+原项目中采用的是Vitamio这个第三方视频播放库满足用户的需求，但是依赖这个庞大的第三方库会造成APK体积的极度增大，原本的APK有28MB，其中这个库就占了17MB，若是能找到一个好的解决方案既能满足用户的需求，又能大大缩减APK体积，那便是极好的。经过再三考量，决定采用Html播放视频取代Vitamio。
+实际上，利用Webview播放Html5视频最头疼的一个问题就是适配,自己刚开始">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebView播放Html5视频">
+<meta property="og:url" content="http://yoursite.com/2016/10/26/WebView播放Html5视频/index.html">
+<meta property="og:site_name" content="CkerV's Blog">
+<meta property="og:description" content="前言
+原项目中采用的是Vitamio这个第三方视频播放库满足用户的需求，但是依赖这个庞大的第三方库会造成APK体积的极度增大，原本的APK有28MB，其中这个库就占了17MB，若是能找到一个好的解决方案既能满足用户的需求，又能大大缩减APK体积，那便是极好的。经过再三考量，决定采用Html播放视频取代Vitamio。
+实际上，利用Webview播放Html5视频最头疼的一个问题就是适配,自己刚开始">
+<meta property="og:updated_time" content="2016-11-17T10:47:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WebView播放Html5视频">
+<meta name="twitter:description" content="前言
+原项目中采用的是Vitamio这个第三方视频播放库满足用户的需求，但是依赖这个庞大的第三方库会造成APK体积的极度增大，原本的APK有28MB，其中这个库就占了17MB，若是能找到一个好的解决方案既能满足用户的需求，又能大大缩减APK体积，那便是极好的。经过再三考量，决定采用Html播放视频取代Vitamio。
+实际上，利用Webview播放Html5视频最头疼的一个问题就是适配,自己刚开始">
+  
+    <link rel="alternative" href="/atom.xml" title="CkerV&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.blog.csdn.net/20161116165408384" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">CkerV</a></h1>
+		</hgroup>
+
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/about">关于</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/CkerV" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="http://weibo.com/u/1921759884/home?wvr=5" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss">rss</a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">CkerV</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.blog.csdn.net/20161116165408384" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">CkerV</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/about">关于</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/CkerV" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1921759884/home?wvr=5" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-WebView播放Html5视频" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      WebView播放Html5视频
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><ul>
+<li>原项目中采用的是Vitamio这个第三方视频播放库满足用户的需求，但是依赖这个庞大的第三方库会造成APK体积的极度增大，原本的APK有28MB，其中这个库就占了17MB，若是能找到一个好的解决方案既能满足用户的需求，又能大大缩减APK体积，那便是极好的。经过再三考量，决定采用<strong>Html</strong>播放视频取代Vitamio。</li>
+<li>实际上，利用Webview播放Html5视频最头疼的一个问题就是<strong>适配</strong>,自己刚开始尝试做了一下适配，发现效果并不尽如人意，后来在网上查了许多资料，发现有个例子写的挺好的，有自适应全屏的适配，<a href="http://download.csdn.net/detail/u012440207/7978157" target="_blank" rel="external">项目下载传送门</a>，现对其关键源码分析如下:<a id="more"></a>
+</li>
+</ul>
+<h1 id="WebViewClient"><a href="#WebViewClient" class="headerlink" title="WebViewClient"></a>WebViewClient</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">myWebChromeClient</span> <span class="keyword">extends</span> <span class="title">WebChromeClient</span> </span>&#123;</div><div class="line"></div><div class="line">		<span class="keyword">private</span> View xprogressvideo;</div><div class="line">		</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onProgressChanged</span><span class="params">(WebView view, <span class="keyword">int</span> newProgress)</span> </span>&#123;</div><div class="line">			<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">			<span class="keyword">super</span>.onProgressChanged(view, newProgress);</div><div class="line">			System.out.println(<span class="string">"new Progress : "</span> + newProgress);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 播放网络视频时全屏会被调用的方法</span></div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onShowCustomView</span><span class="params">(View view, CustomViewCallback callback)</span> </span>&#123;</div><div class="line">			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);</div><div class="line">			webView.setVisibility(View.INVISIBLE);</div><div class="line">			<span class="comment">// 如果一个视图已经存在，那么立刻终止并新建一个</span></div><div class="line">			<span class="keyword">if</span> (xCustomView != <span class="keyword">null</span>) &#123;</div><div class="line">				callback.onCustomViewHidden();</div><div class="line">				<span class="keyword">return</span>;</div><div class="line">			&#125;</div><div class="line">			video_fullView.addView(view);</div><div class="line">			xCustomView = view;</div><div class="line">			xCustomViewCallback = callback;</div><div class="line">			video_fullView.setVisibility(View.VISIBLE);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 视频播放退出全屏会被调用的</span></div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onHideCustomView</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">if</span> (xCustomView == <span class="keyword">null</span>)<span class="comment">// 不是全屏播放状态</span></div><div class="line">				<span class="keyword">return</span>;</div><div class="line">			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);</div><div class="line">			xCustomView.setVisibility(View.GONE);</div><div class="line">			video_fullView.removeView(xCustomView);</div><div class="line">			xCustomView = <span class="keyword">null</span>;</div><div class="line">			video_fullView.setVisibility(View.GONE);</div><div class="line">			xCustomViewCallback.onCustomViewHidden();</div><div class="line">			webView.setVisibility(View.VISIBLE);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 视频加载时进程loading</span></div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> View <span class="title">getVideoLoadingProgressView</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">if</span> (xprogressvideo == <span class="keyword">null</span>) &#123;</div><div class="line">				LayoutInflater inflater = LayoutInflater</div><div class="line">						.from(MainActivity.<span class="keyword">this</span>);</div><div class="line">				xprogressvideo = inflater.inflate(</div><div class="line">						R.layout.video_loading_progress, <span class="keyword">null</span>);</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">return</span> xprogressvideo;</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>WebView是支持html5视频播放和视频的全屏播放的，查阅<a href="http://developer.android.com/reference/android/webkit/WebView.html" target="_blank" rel="external">官网</a>，可看到如下文字：</li>
+</ul>
+<blockquote>
+<p><strong>HTML5 Video support</strong><br>In order to support inline HTML5 video in your application you need to have hardware acceleration turned on.<br><strong>Full screen support</strong><br>In order to support full screen — for video or other HTML content — you need to set a WebChromeClient  and implement both onShowCustomView(View, WebChromeClient.CustomViewCallback) and onHideCustomView(). &gt; If the implementation of either of these two methods is missing then the web contents will not be allowed to enter full screen. Optionally you can implement getVideoLoadingProgressView() to customize the View displayed whilst a video is loading.</p>
+</blockquote>
+<ul>
+<li>可以看到，要实现WebView对全屏视频的支持，主要要重写WebChromeClient的三个方法：<strong>onShowCustomView()</strong>、<strong>onHideCustomView()</strong>、<strong>getVideoLoadingProgressView()</strong>，分析如下.</li>
+</ul>
+<h1 id="onShowCustomView"><a href="#onShowCustomView" class="headerlink" title="onShowCustomView"></a>onShowCustomView</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Notify the host application that the current page has entered full</div><div class="line"> * screen mode. The host application must show the custom View which</div><div class="line"> * contains the web contents &amp;mdash; video or other HTML content &amp;mdash;</div><div class="line"> * in full screen mode. Also see "Full screen support" documentation on</div><div class="line"> * &#123;<span class="doctag">@link</span> WebView&#125;.</div><div class="line"> * <span class="doctag">@param</span> view is the View object to be shown.</div><div class="line"> * <span class="doctag">@param</span> callback invoke this callback to request the page to exit</div><div class="line"> * full screen mode.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onShowCustomView</span><span class="params">(View view, CustomViewCallback callback)</span> </span>&#123;&#125;;</div></pre></td></tr></table></figure>
+<ul>
+<li>通过查看源码注释，可知，此方法会在播放网络视频时进行全屏时被调用，第一个参数应该是将要被显示的view，第二个参数是将被触发的自定义回调(和第一个参数有关)；</li>
+<li>CustomViewCallback是一个接口，源码如下：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CustomViewCallback</span> </span>&#123;</div><div class="line">        <span class="comment">/**</span></div><div class="line">         * Invoked when the host application dismisses the</div><div class="line">         * custom view.</div><div class="line">         */</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCustomViewHidden</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>通过注释可得知，onCustomViewHidden方法会在自定义的全屏View消失时调用;在此demo项目中并没有继承CustomViewCallback接口的类，因此可以省去xCustomViewCallback.onCustomViewHidden()这行代码；</li>
+<li>在重写的方法，我们可以看到，第14~24行，将屏幕方向设定为水平，然后判断视图是否存在，如果存在，就调用callback.onCustomViewHidden()方法，手动隐藏自定义全屏视图；如果不存在，就将要显示的view添加进自定义布局，然后将view和callback保存起来，继而设置布局可见；</li>
+</ul>
+<h1 id="onHideCustomView"><a href="#onHideCustomView" class="headerlink" title="onHideCustomView"></a>onHideCustomView</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Notify the host application that the current page has exited full</div><div class="line"> * screen mode. The host application must hide the custom View, ie. the</div><div class="line"> * View passed to &#123;<span class="doctag">@link</span> #onShowCustomView&#125; when the content entered fullscreen.</div><div class="line"> * Also see "Full screen support" documentation on &#123;<span class="doctag">@link</span> WebView&#125;.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onHideCustomView</span><span class="params">()</span> </span>&#123;&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>通过查看源码注释，可知，此方法会在视频播放退出全屏被调用；</li>
+<li>分析第30~38行：先判断是否是全屏状态，若否直接返回；若是，将屏幕设定为垂直方向，然后对自定义布局和之前得到的全屏view进行remove和Gone处理，再次调用xCustomViewCallback的onCustomViewHidden方法；</li>
+</ul>
+<h1 id="getVideoLoadingProgressView"><a href="#getVideoLoadingProgressView" class="headerlink" title="getVideoLoadingProgressView()"></a>getVideoLoadingProgressView()</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Obtains a View to be displayed while buffering of full screen video is taking</div><div class="line"> * place. The host application can override this method to provide a View</div><div class="line"> * containing a spinner or similar.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@return</span> View The View to be displayed whilst the video is loading.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> View <span class="title">getVideoLoadingProgressView</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>此方法会在视频加载时被调用，查看源码结合注释可知，此方法是被设计用来在视频加载时展示一个view的；</li>
+<li>分析44~50行：在视频加载时，显示自定义的提示view(一个progressBar和一个TextView)，注意判空处理。</li>
+</ul>
+<h1 id="Activity里的onDestory方法中对WebView的处理"><a href="#Activity里的onDestory方法中对WebView的处理" class="headerlink" title="Activity里的onDestory方法中对WebView的处理"></a>Activity里的onDestory方法中对WebView的处理</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">super</span>.onDestroy();</div><div class="line">	video_fullView.removeAllViews();</div><div class="line">	webView.loadUrl(<span class="string">"about:blank"</span>);</div><div class="line">	webView.stopLoading();</div><div class="line">	webView.setWebChromeClient(<span class="keyword">null</span>);</div><div class="line">	webView.setWebViewClient(<span class="keyword">null</span>);</div><div class="line">	webView.destroy();</div><div class="line">	webView = <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>onDestory方法里对WebView里的处理值得借鉴，首先先remove掉自定义布局里的all views，然后让webView加载空白页，然后stopLoading，然后再发webChromeClient和webViewClient值为空，最后destory和置为null，这样做最大程度的释放了webview所占的系统资源。</li>
+</ul>
+<h1 id="返回键逻辑"><a href="#返回键逻辑" class="headerlink" title="返回键逻辑"></a>返回键逻辑</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onKeyDown</span><span class="params">(<span class="keyword">int</span> keyCode, KeyEvent event)</span> </span>&#123;</div><div class="line">       <span class="keyword">if</span> ((keyCode == KeyEvent.KEYCODE_BACK) &amp;&amp; mWebview.canGoBack()) &#123;</div><div class="line">           mWebview.goBack();</div><div class="line">           <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">       &#125;</div><div class="line">       <span class="keyword">return</span> <span class="keyword">super</span>.onKeyDown(keyCode, event);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="使用细节"><a href="#使用细节" class="headerlink" title="使用细节"></a>使用细节</h1><p>接下来主要讲使用过程中需要注意的一些地方、一些坑和解决的办法：</p>
+<ul>
+<li>缩放控件报错。在webview.destroy的时候假如存在缩放控件的情况下，会报错（<strong>registered:android.widget.ZoomButtonsControl</strong>），原因不确定（网上有说是webview来不及进行资源的回收）<br><br>解决方法，获取到webview的父控件，在destroy之前removeAllViews</li>
+<li>webClient 和 webchromeClient 的区别<ul>
+<li>webClient主要用来截获url加载，并处理各种通知和事务的</li>
+<li>webChromeClient主要用来辅助WebView处理Javascript的对话框，网站图标，网站title，加载进度等</li>
+</ul>
+</li>
+<li>全屏交互<ul>
+<li>同时重写<strong>onshowCustomView</strong>和<strong>onHideCustomView</strong>，并去掉其中的super方法就可以让页面中的播放器显示出全屏按钮了（不清楚js中需要怎样实现）</li>
+<li>当webview的高宽均使用match_patent的时候，不需要进行处理就可以正常全屏和取消全屏，当使用wrap_content的时候就会看不到bar条，需要用一个match_parent的view来显示它（如frameLayout）</li>
+</ul>
+</li>
+</ul>
+<h1 id="关于WebView的文章推荐"><a href="#关于WebView的文章推荐" class="headerlink" title="关于WebView的文章推荐"></a>关于WebView的文章推荐</h1><p><a href="http://mp.weixin.qq.com/s?__biz=MjM5NDkxMTgyNw==&amp;mid=201889131&amp;idx=2&amp;sn=2f1f4014cd28f4a918b8f2471d3a4cc9&amp;scene=23&amp;srcid=0424WNUl0GVGEiD2lGdLzUqN#rd" target="_blank" rel="external">Android WebView开发问题及优化汇总</a></p>
+<p><a href="http://www.jianshu.com/p/3fcf8ba18d7f?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="external">史上最全WebView使用，附送Html5Activity一份</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/26/WebView播放Html5视频/" class="archive-article-date">
+  	<time datetime="2016-10-26T04:17:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-26</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WebView/">WebView</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/11/16/Bolts框架在安卓中的简单应用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Bolts框架在安卓中的简单应用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/24/WebView与js的图片监听交互/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">WebView与js的图片监听简单交互</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 CkerV
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/WebView/" style="font-size: 15px;">WebView</a> <a href="/tags/开源框架学习/" style="font-size: 10px;">开源框架学习</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
