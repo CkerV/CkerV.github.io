@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://yoursite.com">
+  <title>Android Flux初体验 | CkerV&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言
+在一次日常逛知乎的时候发现了Android Flux，相比与之前的开发，自己还从未接触到这样的开发模式，于是经过查阅资料后，自己动手尝试体验了一番，并加以总结记录。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Flux初体验">
+<meta property="og:url" content="http://yoursite.com/2016/12/05/Android Flux初体验/index.html">
+<meta property="og:site_name" content="CkerV's Blog">
+<meta property="og:description" content="前言
+在一次日常逛知乎的时候发现了Android Flux，相比与之前的开发，自己还从未接触到这样的开发模式，于是经过查阅资料后，自己动手尝试体验了一番，并加以总结记录。">
+<meta property="og:image" content="http://androidflux.github.io/img/flux-arch.png">
+<meta property="og:image" content="http://img.blog.csdn.net/20161205124116265">
+<meta property="og:image" content="http://img.blog.csdn.net/20161205135241375">
+<meta property="og:updated_time" content="2016-12-05T06:06:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Flux初体验">
+<meta name="twitter:description" content="前言
+在一次日常逛知乎的时候发现了Android Flux，相比与之前的开发，自己还从未接触到这样的开发模式，于是经过查阅资料后，自己动手尝试体验了一番，并加以总结记录。">
+<meta name="twitter:image" content="http://androidflux.github.io/img/flux-arch.png">
+  
+    <link rel="alternative" href="/atom.xml" title="CkerV&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.blog.csdn.net/20161116165408384" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">CkerV</a></h1>
+		</hgroup>
+
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/about">关于</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/CkerV" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="http://weibo.com/u/1921759884/home?wvr=5" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss">rss</a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">CkerV</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.blog.csdn.net/20161116165408384" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">CkerV</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/about">关于</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/CkerV" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1921759884/home?wvr=5" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Android Flux初体验" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android Flux初体验
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><ul>
+<li>在一次日常逛知乎的时候发现了Android Flux，相比与之前的开发，自己还从未接触到这样的开发模式，于是经过查阅资料后，自己动手尝试体验了一番，并加以总结记录。<a id="more"></a>
+</li>
+</ul>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
+<li>Flux源于Facebook在14年提出的一种Web前端架构，主要是用来处理复杂的UI逻辑的一致性问题。经过实践后发现，这种架构可以很好的应用于Android平台，相对于其他的MVC/MVP/MVVM等模式，拥有良好的文档和更具体的设计，比较适合于快速开发实现。</li>
+</ul>
+<h1 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h1><h2 id="单向数据流"><a href="#单向数据流" class="headerlink" title="单向数据流"></a><strong>单向数据流</strong></h2><p><img src="http://androidflux.github.io/img/flux-arch.png" alt="Android Flux"></p>
+<ul>
+<li>如图所示，Flux的核心思想是单向的数据流，所谓单向数据流，就是当用户进行操作的时候，会从View层发出一个Action，这个Action通过Dispatcher流向Store里面，触发Store对状态进行改动，然后再由Store触发新的状态通知到View进行重新渲染。</li>
+</ul>
+<h2 id="Action"><a href="#Action" class="headerlink" title="Action"></a><strong>Action</strong></h2><ul>
+<li>用户操作界面时会触发一个Action，这个Action即是数据的封装，Dispatcher会将这个Action分发到Store</li>
+<li>Action的创建一般被封装到一个有语义的Helper类，（<strong>ActionCreator</strong>），所谓有语义，就是根据不同的业务创建不同的Action，然后把这个Action传递到Dispatcher，进行Action的分发</li>
+</ul>
+<h2 id="Dispatcher"><a href="#Dispatcher" class="headerlink" title="Dispatcher"></a><strong>Dispatcher</strong></h2><ul>
+<li>一个应用中只有一个Dispatcher，Dispatcher管理所有的数据流，（即内部管理的是所有的Store），它是Action与Store联系的中心枢纽</li>
+<li>实际上，它管理的是Store注册的一系列回调接口，本身没有其他的逻辑，仅仅是把Action分发到Store</li>
+<li>由此可知，所有的数据流必须从这里经过，依次分发到已注册的Store中</li>
+</ul>
+<h2 id="Store"><a href="#Store" class="headerlink" title="Store"></a><strong>Store</strong></h2><ul>
+<li>Store包含应用的状态和逻辑，通常在此类中实现对Action的逻辑处理，并把处理的结果通知到View中</li>
+<li>Store会把自己注册在Dispatcher上并提供一个回调的接口，用于处理Action，当Dispatcher分发Action时，内部管理的Store就会回调这个用于处理Action的接口</li>
+<li>通过Dispatcher发送Action来更新Store的内部状态，当Store更新后，它会发送一个事件声明自己的状态已经发送了改变，（通常是View接收），然后View会读取这些变化并更新自己</li>
+</ul>
+<h2 id="View"><a href="#View" class="headerlink" title="View"></a><strong>View</strong></h2><ul>
+<li>即是Activity和Fragment，负责监听Store发送的事件并更新界面</li>
+<li>通常一个Activity对应一个Store，但是如果Activity包含许多Fragment，也可以让每个Fragment对应自己的Store</li>
+</ul>
+<h1 id="代码实践"><a href="#代码实践" class="headerlink" title="代码实践"></a>代码实践</h1><ul>
+<li>本项目模拟了一个登陆的过程，Activity由两个EditText和一个Button组成，当username和password均为123时，模拟登陆成功；否则模拟登陆失败。</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20161205124116265" alt="Flux Test"></p>
+<h2 id="Action-1"><a href="#Action-1" class="headerlink" title="Action"></a>Action</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 简单的POJO类型，只提供两个字段：type 和 data, 分别记录Action的类型和数据</div><div class="line"> * Created by ckerv on 16/12/4.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Action</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String type;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> T data;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Action</span><span class="params">(String type, T data)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.type = type;</div><div class="line">        <span class="keyword">this</span>.data = data;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getType</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> type;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setType</span><span class="params">(String type)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.type = type;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getData</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> data;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(T data)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.data = data;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by ckerv on 16/12/5.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginAction</span> <span class="keyword">extends</span> <span class="title">Action</span>&lt;<span class="title">LoginBean</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String LOGIN_ACTION = <span class="string">"login.action"</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoginAction</span><span class="params">(String type, LoginBean data)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(type, data);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>Action是简单的POJO类型，采用泛型对数据进行封装，只提供了两个字段 <code>type</code> 和 <code>data</code> ，分别记录Action的类型和数据</li>
+<li>LoginAction是Action的具体业务实现，实现非常简单，只添加了一个Action类型字段 <code>LOGIN_ACTION</code></li>
+</ul>
+<h2 id="Dispatcher-1"><a href="#Dispatcher-1" class="headerlink" title="Dispatcher"></a>Dispatcher</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 一个app通常只有一个Dispatcher类,内部进行对Store的管理</div><div class="line"> * 此类的作用是将action分发到store,是连接action和store的中心枢纽</div><div class="line"> * Created by ckerv on 16/12/4.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dispatcher</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Dispatcher INSTANCE;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> List&lt;Store&gt; mStores;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Dispatcher</span><span class="params">()</span> </span>&#123;</div><div class="line">        mStores = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Dispatcher <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(INSTANCE == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">synchronized</span> (Dispatcher.class) &#123;</div><div class="line">                <span class="keyword">if</span>(INSTANCE == <span class="keyword">null</span>) &#123;</div><div class="line">                    INSTANCE = <span class="keyword">new</span> Dispatcher();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> INSTANCE;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 注册store,即把store添加到list中</div><div class="line">     * <span class="doctag">@param</span> store</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">register</span><span class="params">(Store store)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.mStores.add(store);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 注销store,从list中移除</div><div class="line">     * <span class="doctag">@param</span> store</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unRegister</span><span class="params">(Store store)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.mStores.remove(store);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 分发action</div><div class="line">     * <span class="doctag">@param</span> action</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatch</span><span class="params">(Action action)</span> </span>&#123;</div><div class="line">        post(action);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 向注册的store list依次分发acion</div><div class="line">     * <span class="doctag">@param</span> action</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">post</span><span class="params">(Action action)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (Store store : mStores) &#123;</div><div class="line">            store.onAction(action);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>Store会在这里注册自己的回调接口，Dispatcher会把Action分发到注册的Store，所以它会提供一些公有方法来注册监听和分发消息</li>
+<li>Dispatcher对外仅暴露3个公有方法：<ul>
+<li><code>register(final Store store)</code> 用来注册每个Store的回调接口</li>
+<li><code>unregister(final Store store)</code> 用来接触Store的回调接口</li>
+<li><code>dispatch(Action action)</code> 用来触发Store注册的回调接口</li>
+</ul>
+</li>
+<li>用一个ArrayList来管理Stores,对于一个更复杂的app可能需要精心设计store所管理的数据结构</li>
+</ul>
+<h2 id="Store-1"><a href="#Store-1" class="headerlink" title="Store"></a>Store</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 处理action的基类,通常可根据不同的业务逻辑实现&#123;<span class="doctag">@link</span> #onAction(Action)&#125;</div><div class="line"> * 通过EventBus传递数据</div><div class="line"> * Created by ckerv on 16/12/4.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Store</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> EventBus mBus = EventBus.getDefault();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">Store</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">register</span><span class="params">(Object view)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.mBus.register(view);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unRegister</span><span class="params">(Object view)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.mBus.unregister(view);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * post事件到view层,进行UI的后续处理</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">emitStoreChange</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.mBus.post(changeEvent());</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 处理Action的逻辑,子类必须实现此方法</div><div class="line">     * <span class="doctag">@param</span> action</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">onAction</span><span class="params">(Action action)</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * post事件</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> StoreChangeEvent <span class="title">changeEvent</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StoreChangeEvent</span></span>&#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>这里Store是个抽象类，处理具体业务逻辑的子类必须实现<code>onAction(Action action)</code>和<code>changeEvent()</code>方法</li>
+<li>采用EventBus来向view发送事件，因此必须提供<code>register(Object view)</code>和<code>unRegister(Object view)</code>方法给外部注册和注销EventBus</li>
+</ul>
+<h2 id="LoginStore"><a href="#LoginStore" class="headerlink" title="LoginStore"></a>LoginStore</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by ckerv on 16/12/5.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginStore</span> <span class="keyword">extends</span> <span class="title">Store</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoginStore</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>();</div><div class="line">        loginResponseBean = <span class="keyword">new</span> LoginResponseBean();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> LoginResponseBean loginResponseBean;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> LoginResponseBean <span class="title">getLoginResponseBean</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> loginResponseBean;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAction</span><span class="params">(Action action)</span> </span>&#123;</div><div class="line">        <span class="keyword">switch</span> (action.getType()) &#123;</div><div class="line">            <span class="keyword">case</span> LoginAction.LOGIN_ACTION:</div><div class="line">                LoginBean loginBean = (LoginBean) action.getData();</div><div class="line">                <span class="keyword">if</span>(loginBean.getUserName().equals(<span class="string">"123"</span>) &amp;&amp; loginBean.getPassWord().equals(<span class="string">"123"</span>)) &#123;</div><div class="line">                    loginResponseBean.setSuccess(<span class="keyword">true</span>);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    loginResponseBean.setSuccess(<span class="keyword">false</span>);</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">default</span>:<span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        emitStoreChange();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> StoreChangeEvent <span class="title">changeEvent</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> StoreChangeEvent();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>处理登录逻辑的LoginStore类，继承自Store，可以看到，在<code>onAction(Action)</code>进行登录逻辑的验证</li>
+<li>在登录逻辑的处理过程中，通过改变<code>LoginReponseBean</code>的状态来区分登录成功与否，处理完逻辑之后，调用父类的<code>emitStoreChange()</code>方法发送事件通知view更新</li>
+<li>请注意，这里只提供LoginReponseBean的<code>get</code>方法，Store内部状态的更新只能是通过Dispatcher改变</li>
+</ul>
+<h2 id="MainActivity"><a href="#MainActivity" class="headerlink" title="MainActivity"></a>MainActivity</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> <span class="keyword">implements</span> <span class="title">View</span>.<span class="title">OnClickListener</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> EditText mEtUsername;</div><div class="line">    <span class="keyword">private</span> EditText mEtPassword;</div><div class="line">    <span class="keyword">private</span> Button mBtnLogin;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ActionCreator mActionCreator;</div><div class="line">    <span class="keyword">private</span> Dispatcher mDispatcher;</div><div class="line">    <span class="keyword">private</span> LoginStore mStore;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        initVariables();</div><div class="line">        initViews();</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initVariables</span><span class="params">()</span> </span>&#123;</div><div class="line">        mStore = <span class="keyword">new</span> LoginStore();</div><div class="line">        mDispatcher = Dispatcher.getInstance();</div><div class="line">        mActionCreator = ActionCreator.getInstance(mDispatcher);</div><div class="line">        mDispatcher.register(mStore);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onResume</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onResume();</div><div class="line">        mStore.register(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onDestroy();</div><div class="line">        mStore.unRegister(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initViews</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">        mEtUsername = (EditText) findViewById(R.id.main_et_username);</div><div class="line">        mBtnLogin = (Button) findViewById(R.id.main_btn_login);</div><div class="line">        mEtPassword = (EditText) findViewById(R.id.main_et_password);</div><div class="line">        mBtnLogin.setOnClickListener(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">        <span class="keyword">switch</span> (v.getId()) &#123;</div><div class="line">            <span class="keyword">case</span> R.id.main_btn_login :</div><div class="line">                mActionCreator.login(mEtUsername.getText().toString(), mEtPassword.getText().toString());</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">default</span> : <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Subscribe</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChangeEvent</span><span class="params">(Store.StoreChangeEvent changeEvent)</span> </span>&#123;</div><div class="line">       <span class="keyword">if</span>(mStore.getLoginResponseBean().isSuccess()) &#123;</div><div class="line">           Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"登录成功"</span>, Toast.LENGTH_LONG).show();</div><div class="line">       &#125; <span class="keyword">else</span> &#123;</div><div class="line">           Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"登录失败"</span>, Toast.LENGTH_LONG).show();</div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>一般说来，一个Activity有多少个业务就有多少个Store</li>
+<li>在<code>initVariables()</code>进行Store、Dispatcher和ActionCreator的初始化和注册</li>
+<li>在<code>onResume()</code>和<code>onDestroy()</code>方法里进行EventBus的注册和注销</li>
+<li>当用户点击登录按钮时，由ActionCreator调用具体的业务方法<code>login(String username， String password)</code>使Dispatcher分发LoginAction到LoginStore，当LoginStore处理完LoginAction发送事件到MainActivity，MainActivity层接收到事件，获取LoginStore的状态，更新界面。</li>
+</ul>
+<h2 id="流程总结"><a href="#流程总结" class="headerlink" title="流程总结"></a>流程总结</h2><p><img src="http://img.blog.csdn.net/20161205135241375" alt="流程总结"></p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ul>
+<li>以上是我对Android Flux开发模式的第一次实践，可以看到，采用Android Flux的开发模式有如下好处：<ul>
+<li>View层只负责渲染界面和触发Action，具体业务逻辑由Store实现，高度解耦</li>
+<li>要理解一个Store可能发生的状态变化，只看<code>onAction(Action action)</code>中的逻辑处理即可</li>
+<li>由于数据(Action)是单向流动，因此Debug的时候变得轻松很多，可以快速定位Bug的发生地点</li>
+</ul>
+</li>
+<li>以上是个人对于Anroid Flux的理解</li>
+<li>，有不足之处望指出一起讨论，一起学习~O(∩_∩)O哈哈~</li>
+</ul>
+<h1 id="关于Android-Flux"><a href="#关于Android-Flux" class="headerlink" title="关于Android Flux"></a>关于Android Flux</h1><ul>
+<li><a href="http://androidflux.github.io/docs/overview.html#content" target="_blank" rel="external">HelloWorld快速入门</a></li>
+<li><a href="http://www.jianshu.com/p/896ce1a8e4ed" target="_blank" rel="external">AndroidFlux项目一览-Flux架构的Android移植</a></li>
+<li><a href="http://androidflux.github.io/docs/overview.html#content" target="_blank" rel="external">Android Flux项目</a></li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/05/Android Flux初体验/" class="archive-article-date">
+  	<time datetime="2016-12-05T06:05:12.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android，开发架构/">Android，开发架构</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2016/11/16/Bolts框架在安卓中的简单应用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Bolts框架在安卓中的简单应用</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 CkerV
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android，开发架构/" style="font-size: 10px;">Android，开发架构</a> <a href="/tags/WebView/" style="font-size: 15px;">WebView</a> <a href="/tags/开源框架学习/" style="font-size: 10px;">开源框架学习</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
