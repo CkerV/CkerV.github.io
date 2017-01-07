@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Android,WebView," />
+  <meta name="keywords" content="Android,读书笔记," />
 
 
 
@@ -57,19 +57,45 @@
 
 
 
-<meta name="description" content="前言
-项目中遇到一个需求，就是一个WebView里的图片需要能监听点击，然后展示出图片详情，网上有类似于WebView和js交互的类似代码，总结如下：">
+<meta name="description" content="概述
+线程是CPU调度的最小单元，进程一般指一个执行单元，在PC和移动设备上指一个程序或者一个应用
+
+在Android中使用多进程只有一种方法，android:process，以”:”开头的进程属于当前应用的私有进程
+
+每个进程都分配一个独立的虚拟机，在不同的虚拟机中访问同一个类的对象会产生多份副本
+
+多进程会造成如下方面的问题：
+  1.静态成员和单例模式完全失效
+  2.线程同步机制完全失效">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WebView与js的图片监听简单交互">
-<meta property="og:url" content="http://yoursite.com/2016/10/24/WebView与js的图片监听交互/index.html">
+<meta property="og:title" content="IPC机制学习总结">
+<meta property="og:url" content="http://yoursite.com/2017/01/07/IPC机制学习总结/index.html">
 <meta property="og:site_name" content="CkerV's Blog">
-<meta property="og:description" content="前言
-项目中遇到一个需求，就是一个WebView里的图片需要能监听点击，然后展示出图片详情，网上有类似于WebView和js交互的类似代码，总结如下：">
-<meta property="og:updated_time" content="2016-11-17T09:41:48.000Z">
+<meta property="og:description" content="概述
+线程是CPU调度的最小单元，进程一般指一个执行单元，在PC和移动设备上指一个程序或者一个应用
+
+在Android中使用多进程只有一种方法，android:process，以”:”开头的进程属于当前应用的私有进程
+
+每个进程都分配一个独立的虚拟机，在不同的虚拟机中访问同一个类的对象会产生多份副本
+
+多进程会造成如下方面的问题：
+  1.静态成员和单例模式完全失效
+  2.线程同步机制完全失效">
+<meta property="og:image" content="http://img.blog.csdn.net/20170107131638209?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU2MzAzMzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-01-07T05:23:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WebView与js的图片监听简单交互">
-<meta name="twitter:description" content="前言
-项目中遇到一个需求，就是一个WebView里的图片需要能监听点击，然后展示出图片详情，网上有类似于WebView和js交互的类似代码，总结如下：">
+<meta name="twitter:title" content="IPC机制学习总结">
+<meta name="twitter:description" content="概述
+线程是CPU调度的最小单元，进程一般指一个执行单元，在PC和移动设备上指一个程序或者一个应用
+
+在Android中使用多进程只有一种方法，android:process，以”:”开头的进程属于当前应用的私有进程
+
+每个进程都分配一个独立的虚拟机，在不同的虚拟机中访问同一个类的对象会产生多份副本
+
+多进程会造成如下方面的问题：
+  1.静态成员和单例模式完全失效
+  2.线程同步机制完全失效">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170107131638209?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU2MzAzMzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 
 
 
@@ -87,7 +113,7 @@
   };
 </script>
 
-  <title> WebView与js的图片监听简单交互 | CkerV's Blog </title>
+  <title> IPC机制学习总结 | CkerV's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="default">
@@ -219,7 +245,7 @@
             
             
               
-                WebView与js的图片监听简单交互
+                IPC机制学习总结
               
             
           </h1>
@@ -231,8 +257,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-10-24T21:24:58+08:00" content="2016-10-24">
-              2016-10-24
+            <time itemprop="dateCreated" datetime="2017-01-07T13:21:16+08:00" content="2017-01-07">
+              2017-01-07
             </time>
           </span>
 
@@ -258,34 +284,131 @@
       
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><ul>
-<li>项目中遇到一个需求，就是一个WebView里的图片需要能监听点击，然后展示出图片详情，网上有类似于WebView和js交互的类似代码，总结如下：<a id="more"></a>
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><ul>
+<li><p>线程是CPU调度的最小单元，进程一般指一个执行单元，在PC和移动设备上指一个程序或者一个应用</p>
+</li>
+<li><p>在Android中使用多进程只有一种方法，<code>android:process</code>，以”:”开头的进程属于当前应用的私有进程</p>
+</li>
+<li><p>每个进程都分配一个独立的虚拟机，在不同的虚拟机中访问同一个类的对象会产生多份副本</p>
+</li>
+<li><p>多进程会造成如下方面的问题：</p>
+<p>  1.静态成员和单例模式完全失效</p>
+<p>  2.线程同步机制完全失效</p>
+<p>  3.SharedPreferences的可靠性下降（不支持两个进程同时执行写操作）</p>
+<p>  4.Application多次创建</p>
+</li>
+<li><p>多进程模式中，不同进程的组件的确会拥有独立的虚拟机、Application以及内存空间</p>
+</li>
+<li><p>跨进程通信方式：</p>
+<p>  1.Intent&amp;Bundle</p>
+<p>  2.共享文件和ShardPreferences</p>
+<p>  3.基于Binder的Messenger和AIDL</p>
+<p>  4.Socket</p>
 </li>
 </ul>
-<h1 id="在外部添加js接口和设置WebViewCilent"><a href="#在外部添加js接口和设置WebViewCilent" class="headerlink" title="在外部添加js接口和设置WebViewCilent"></a>在外部添加js接口和设置WebViewCilent</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">webView.addJavascriptInterface(<span class="keyword">new</span> JavascriptInterface(context), <span class="string">"imagelistner"</span>);</div><div class="line">webView.setWebViewClient(<span class="keyword">new</span> MyWebViewClient());</div></pre></td></tr></table></figure>
-<ul>
-<li>第1行代码添加js接口，第2行设置webViewClient，定义好JavascriptInterface和MyWebViewClient之后，直接在外部调用这两行代码即可；</li>
-</ul>
-<p>#JavascriptInterface<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavascriptInterface</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> Context context;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">JavascriptInterface</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.context = context;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">openImage</span><span class="params">(String imgUrl)</span> </span>&#123;</div><div class="line">        Intent intent = <span class="keyword">new</span> Intent();</div><div class="line">        intent.putExtra(<span class="string">"url"</span>, imgUrl);</div><div class="line">        intent.putExtra(<span class="string">"type"</span>, <span class="string">"internet"</span>);</div><div class="line">        intent.setClass(context, PhotoActivity.class);</div><div class="line">        context.startActivity(intent);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<ul>
-<li>我们在此接口定义了一个方法：openImage(String imgUrl)，此方法用来触发点击之后的回调，传入图片的url和图片类型，跳转到显示图片详情的PhotoActivity;</li>
-</ul>
-<h1 id="MyWebViewClient"><a href="#MyWebViewClient" class="headerlink" title="MyWebViewClient"></a>MyWebViewClient</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyWebViewClient</span> <span class="keyword">extends</span> <span class="title">WebViewClient</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView view, String url)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.shouldOverrideUrlLoading(view, url);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPageFinished</span><span class="params">(WebView view, String url)</span> </span>&#123;</div><div class="line">        view.getSettings().setJavaScriptEnabled(<span class="keyword">true</span>);</div><div class="line">        <span class="keyword">super</span>.onPageFinished(view, url);</div><div class="line">        <span class="comment">// html加载完成之后，添加监听图片点击的js函数</span></div><div class="line">        AddImageClickListener.addImageClickListner(view);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPageStarted</span><span class="params">(WebView view, String url, Bitmap favicon)</span> </span>&#123;</div><div class="line">        view.getSettings().setJavaScriptEnabled(<span class="keyword">true</span>);</div><div class="line">        <span class="keyword">super</span>.onPageStarted(view, url, favicon);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceivedError</span><span class="params">(WebView view, <span class="keyword">int</span> errorCode, String description, String failingUrl)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onReceivedError(view, errorCode, description, failingUrl);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>这个比较常规，但是当webview加载完页面之后回调onPageFinished方法，在第14行有句AddImageClickListener.addImageClickListner(view);这里就是用来添加监听图片的点击js函数；</li>
-</ul>
-<h1 id="AddImageClickListener"><a href="#AddImageClickListener" class="headerlink" title="AddImageClickListener"></a>AddImageClickListener</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddImageClickListener</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">addImageClickListner</span><span class="params">(WebView webView)</span> </span>&#123;</div><div class="line">        <span class="comment">// 这段js函数的功能就是，遍历所有的img结点，并添加onclick函数，在还是执行的时候调用本地接口传递url过去</span></div><div class="line">        webView.loadUrl(<span class="string">"javascript:(function()&#123;"</span> +</div><div class="line">                <span class="string">"var objs = document.getElementsByTagName(\"img\"); "</span> +</div><div class="line">                <span class="string">"for(var i=0;i&lt;objs.length;i++)  "</span> +</div><div class="line">                <span class="string">"&#123;"</span></div><div class="line">                + <span class="string">"    objs[i].onclick=function()  "</span> +</div><div class="line">                <span class="string">"    &#123;  "</span></div><div class="line">                + <span class="string">"        window.imagelistner.openImage(this.src);  "</span> +</div><div class="line">                <span class="string">"    &#125;  "</span> +</div><div class="line">                <span class="string">"&#125;"</span> +</div><div class="line">                <span class="string">"&#125;)()"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>结合注释，可以看到第11行，为每个图片的onClick函数添加了我们之前在自定义js通信接口定义的openImage方法，而且，window.imagelistener.openImage(this.src)里的imagelistener与前面添加js接口时的第2个参数是一致的，看懂这段js代码并不难哈哈~</li>
-</ul>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ul>
-<li>以上则是解决项目中需要通过展示Webview中网页图片详情的简单实现，现总结要点如下：<ol>
-<li>添加自定义js通信接口，定义触发点击之后的回调函数</li>
-<li>添加自定义WebViewClient，加载完网页后添加监听图片点击的js函数</li>
-<li>js函数的具体实现，通过Webview.loadUrl方法添加js函数</li>
-</ol>
+<a id="more"></a>
+<h1 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h1><ul>
+<li><p>Serializable接口，serialVersionUID的作用？（保持序列化和反序列化过程中的对象一致）手动指定</p>
+<p>  1.静态成员变量属于类不属于对象，所以不会参与序列化过程</p>
+<p>  2.用transient关键字标记的成员变量不参与序列化过程</p>
+</li>
+<li><p>Parcelable接口</p>
+<p>  1.序列化，由writeToParcel方法来完成，最终通过一系列write方法完成</p>
+<p>  2.反序列化，通过CREATOR完成，内部标明如何创建序列化对象和数组，并通过Parcel的一系列read方法来完成反序列化过程</p>
+</li>
+<li><p>Serializable是Java中的序列化接口，<strong>使用起来简单但是开销很大</strong>，序列化和反序列化过程需要<strong>大量的I/O操作</strong>，Parcelable是Android中的序列化方式，更适用Android，使用起来稍微麻烦，但是<strong>效率很高</strong>，Android推荐</p>
 </li>
 </ul>
+<h1 id="BInder"><a href="#BInder" class="headerlink" title="BInder"></a>BInder</h1><ul>
+<li><p>从Android Framework角度来说，Binder是ServiceManager连接各种Manager（ActivityManager、WindowManager等等）和相应ManagerService的桥梁</p>
+</li>
+<li><p>从Android应用层来说，Binder是客户端和服务端进行通信的媒介</p>
+</li>
+</ul>
+<blockquote>
+<p>Stub类： </p>
+<p>1.基于Binder和实现了ILocationManager接口的一个抽象类，之所以是抽象类也没有实现ILocationManager接口的方法，是因为具体的服务函数必须由程序员实现。</p>
+<p>2.重写了onTransact()统一写入参数顺序和读出参数的顺序。</p>
+<p>3.在Stub类中还定义了一些int常量，这些常量就是onTransact()和 transact()第一个参数code值的来源。</p>
+<p>4.还有一个asInterface（）的方法：返回客户端所需的接口类型对象。这个方法是区分进程的。如果是当前进程：返回Stub对象本身。否则返回Stub.Proxy对象。</p>
+<p>Stub.Proxy类<br>该类是当客户端远程获取Binder对象的使用的代理对象，该代理对象最主要的作用也是统一写入参数的顺序和读取参数的顺序。里面的方法被客户端所调用。</p>
+</blockquote>
+<ul>
+<li>Binder的工作机制<br><img src="http://img.blog.csdn.net/20170107131638209?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU2MzAzMzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="Binder工作机制"></li>
+</ul>
+<h1 id="AIDL"><a href="#AIDL" class="headerlink" title="AIDL"></a>AIDL</h1><ul>
+<li><p><code>RemoteCallbackList</code>是系统专门提供的用于删除跨进程Listener的接口（注册与注销）</p>
+</li>
+<li><p>客户端调用远程服务的方法，被调用的方法运行在服务端的Binder线程池中，同时客户端线程会被挂起，这个时候如果客户端方法执行比较耗时，就会导致客户端线程长时间地阻塞在这里（<strong>ANR</strong>），客户端的onServiceConnected和onServiceDisconnected方法都运行在UI线程中，所以也不可以在他们里面直接调用服务端的耗时方法(自开新线程)</p>
+</li>
+<li><p>Binder可能会意外死亡</p>
+<p>  1.设置<code>DeathRecipient</code>监听，当Binder死亡时，回调binderDied（在客户端的Binder线程池中被回调，因此<strong>不能访问UI</strong>）</p>
+<p>  2.<code>onServiceDisconnected</code>中重连远程服务（在客户端的<strong>UI线程</strong>中被回调）</p>
+</li>
+</ul>
+<h1 id="Binder连接池"><a href="#Binder连接池" class="headerlink" title="Binder连接池"></a>Binder连接池</h1><ul>
+<li><p>当不同的业务模块需要建立不同的Aidl接口意味着如果不进行统一管理的话会产生大量的service，这显然是不合理的，为此必须用同一个service统一管理不同的Aidl Binder</p>
+</li>
+<li><p>对于服务端来说，只需要一个Service，服务端提供一个queryBinder接口，这个接口能够根据业务模块的特征来返回相应的Binder对象给它们</p>
+</li>
+<li><p>关键</p>
+<p>  1.建立不同的业务模块的Aidl接口，然后建立一个<code>IBinderPool</code>的Aidl接口，里面有<code>queryBinder(int binderCode)</code>方法</p>
+<p>  2.BinderPoolService，onBind返回<code>BinderPool.BinderPoolImpl()</code></p>
+<p>  3.BinderPool，统一进行管理，实例化（getInstance）的时候<code>bindService(BinderPoolService)</code>，然后再在<code>mBinderPoolConnection</code>得到<code>mBinderPool</code>，向外部提供<code>queryBinder(int binderCode)</code>方法，内部调用<code>mBinderPool#queryBinder(int binderCode)</code></p>
+<p>  4.BinderPoolImpl，IBinderPool的实现类，<code>queryBinder(int binderCode)</code>方法根据不同的业务返回不同业务aidl接口的实现类</p>
+</li>
+<li><p>具体实现可看<a href="https://github.com/CkerV/BinderPool" target="_blank" rel="external">BinderPool</a></p>
+</li>
+</ul>
+<h1 id="不同的IPC方式的比较"><a href="#不同的IPC方式的比较" class="headerlink" title="不同的IPC方式的比较"></a>不同的IPC方式的比较</h1><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>优点</th>
+<th>缺点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bundle</td>
+<td>简单易用</td>
+<td>只能传输Bundle支持的数据类型</td>
+<td>四大组件间的进程通信</td>
+</tr>
+<tr>
+<td>文件共享</td>
+<td>简单易用</td>
+<td>不适合高并发场景，并且无法做到进程间的即时通信</td>
+<td>无并发访问情形，交换简单的数据实时性不高的场景</td>
+</tr>
+<tr>
+<td>AIDL</td>
+<td>功能强大，支持一对多并发通信，支持实时通信</td>
+<td>使用稍复杂，需要处理好线程同步</td>
+<td>一对多通信且有RPC需求</td>
+</tr>
+<tr>
+<td>Messenger</td>
+<td>功能一般，支持一对多串行通信，支持实时通信</td>
+<td>不能很好处理高并发情形，不支持RPC。数据通过Message进行传输，因此只能传输Bundle支持的数据类型</td>
+<td>低并发的一对多即时通信，无RPC需求，或者无需返回结果的RPC需求</td>
+</tr>
+<tr>
+<td>ContentProvider</td>
+<td>在数据源访问方面功能强大，支持一对多并发数据共享，可通过Call方法扩展其他操作</td>
+<td>可以理解为受约束的AIDL，主要提供数据源的CRUD操作</td>
+<td>一对多的进程间的数据共享</td>
+</tr>
+<tr>
+<td>Socket</td>
+<td>功能强大，可以通过网络传输字节流，支持一对多并发实时通信</td>
+<td>实现细节稍微有点繁琐，不支持直接的RPC</td>
+<td>网络数据交换</td>
+</tr>
+</tbody>
+</table>
+<h1 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h1><p><a href="http://baike.baidu.com/link?url=EGYVDC4CJCDQOWny117EWUtnFHWv61Uka8Pkn3_T7R0u0A9upMkM1qn18O4w5o6vLeJ9580VdXAmzi8IF-HoAMOm84kFf2zub66hV9LEuG6_pZq6JZlM4EXMrCfhnAbwU-ljouu-CJRSZi1WFwP7rCbc5-52k64ErClns4hMvBO" target="_blank" rel="external">《Android开发艺术探索》</a></p>
 
       
     </div>
@@ -302,7 +425,7 @@
           
             <a href="/tags/Android/" rel="tag">#Android</a>
           
-            <a href="/tags/WebView/" rel="tag">#WebView</a>
+            <a href="/tags/读书笔记/" rel="tag">#读书笔记</a>
           
         </div>
       
@@ -311,13 +434,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/12/05/Android Flux初体验/" rel="next" title="Android Flux初体验">
+                <i class="fa fa-chevron-left"></i> Android Flux初体验
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/10/26/WebView播放Html5视频/" rel="prev" title="WebView播放Html5视频">
-                WebView播放Html5视频 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -428,7 +551,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在外部添加js接口和设置WebViewCilent"><span class="nav-number">2.</span> <span class="nav-text">在外部添加js接口和设置WebViewCilent</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MyWebViewClient"><span class="nav-number">3.</span> <span class="nav-text">MyWebViewClient</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AddImageClickListener"><span class="nav-number">4.</span> <span class="nav-text">AddImageClickListener</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#序列化"><span class="nav-number">2.</span> <span class="nav-text">序列化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BInder"><span class="nav-number">3.</span> <span class="nav-text">BInder</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AIDL"><span class="nav-number">4.</span> <span class="nav-text">AIDL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Binder连接池"><span class="nav-number">5.</span> <span class="nav-text">Binder连接池</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不同的IPC方式的比较"><span class="nav-number">6.</span> <span class="nav-text">不同的IPC方式的比较</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#感谢"><span class="nav-number">7.</span> <span class="nav-text">感谢</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
