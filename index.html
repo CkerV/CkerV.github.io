@@ -263,27 +263,8 @@
 
       
         
-          <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><ul>
-<li><p>线程是CPU调度的最小单元，进程一般指一个执行单元，在PC和移动设备上指一个程序或者一个应用</p>
-</li>
-<li><p>在Android中使用多进程只有一种方法，<code>android:process</code>，以”:”开头的进程属于当前应用的私有进程</p>
-</li>
-<li><p>每个进程都分配一个独立的虚拟机，在不同的虚拟机中访问同一个类的对象会产生多份副本</p>
-</li>
-<li><p>多进程会造成如下方面的问题：</p>
-<p>  1.静态成员和单例模式完全失效</p>
-<p>  2.线程同步机制完全失效</p>
-<p>  3.SharedPreferences的可靠性下降（不支持两个进程同时执行写操作）</p>
-<p>  4.Application多次创建</p>
-</li>
-<li><p>多进程模式中，不同进程的组件的确会拥有独立的虚拟机、Application以及内存空间</p>
-</li>
-<li><p>跨进程通信方式：</p>
-<p>  1.Intent&amp;Bundle</p>
-<p>  2.共享文件和ShardPreferences</p>
-<p>  3.基于Binder的Messenger和AIDL</p>
-<p>  4.Socket</p>
-</li>
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><ul>
+<li>本篇基于对《Android开发艺术探索》的第2章IPC机制的学习加以总结，若有不足之处欢迎指出补充和讨论，O(∩_∩)O哈哈~</li>
 </ul>
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/01/07/IPC机制学习总结/#more" rel="contents">

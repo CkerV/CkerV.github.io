@@ -57,44 +57,20 @@
 
 
 
-<meta name="description" content="概述
-线程是CPU调度的最小单元，进程一般指一个执行单元，在PC和移动设备上指一个程序或者一个应用
-
-在Android中使用多进程只有一种方法，android:process，以”:”开头的进程属于当前应用的私有进程
-
-每个进程都分配一个独立的虚拟机，在不同的虚拟机中访问同一个类的对象会产生多份副本
-
-多进程会造成如下方面的问题：
-  1.静态成员和单例模式完全失效
-  2.线程同步机制完全失效">
+<meta name="description" content="前言
+本篇基于对《Android开发艺术探索》的第2章IPC机制的学习加以总结，若有不足之处欢迎指出补充和讨论，O(∩_∩)O哈哈~">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IPC机制学习总结">
 <meta property="og:url" content="http://yoursite.com/2017/01/07/IPC机制学习总结/index.html">
 <meta property="og:site_name" content="CkerV's Blog">
-<meta property="og:description" content="概述
-线程是CPU调度的最小单元，进程一般指一个执行单元，在PC和移动设备上指一个程序或者一个应用
-
-在Android中使用多进程只有一种方法，android:process，以”:”开头的进程属于当前应用的私有进程
-
-每个进程都分配一个独立的虚拟机，在不同的虚拟机中访问同一个类的对象会产生多份副本
-
-多进程会造成如下方面的问题：
-  1.静态成员和单例模式完全失效
-  2.线程同步机制完全失效">
+<meta property="og:description" content="前言
+本篇基于对《Android开发艺术探索》的第2章IPC机制的学习加以总结，若有不足之处欢迎指出补充和讨论，O(∩_∩)O哈哈~">
 <meta property="og:image" content="http://img.blog.csdn.net/20170107131638209?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU2MzAzMzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2017-01-07T05:23:28.000Z">
+<meta property="og:updated_time" content="2017-01-07T05:30:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IPC机制学习总结">
-<meta name="twitter:description" content="概述
-线程是CPU调度的最小单元，进程一般指一个执行单元，在PC和移动设备上指一个程序或者一个应用
-
-在Android中使用多进程只有一种方法，android:process，以”:”开头的进程属于当前应用的私有进程
-
-每个进程都分配一个独立的虚拟机，在不同的虚拟机中访问同一个类的对象会产生多份副本
-
-多进程会造成如下方面的问题：
-  1.静态成员和单例模式完全失效
-  2.线程同步机制完全失效">
+<meta name="twitter:description" content="前言
+本篇基于对《Android开发艺术探索》的第2章IPC机制的学习加以总结，若有不足之处欢迎指出补充和讨论，O(∩_∩)O哈哈~">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20170107131638209?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU2MzAzMzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 
 
@@ -284,7 +260,11 @@
       
 
       
-        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><ul>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><ul>
+<li>本篇基于对《Android开发艺术探索》的第2章IPC机制的学习加以总结，若有不足之处欢迎指出补充和讨论，O(∩_∩)O哈哈~</li>
+</ul>
+<a id="more"></a>
+<h1 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h1><ul>
 <li><p>线程是CPU调度的最小单元，进程一般指一个执行单元，在PC和移动设备上指一个程序或者一个应用</p>
 </li>
 <li><p>在Android中使用多进程只有一种方法，<code>android:process</code>，以”:”开头的进程属于当前应用的私有进程</p>
@@ -306,7 +286,6 @@
 <p>  4.Socket</p>
 </li>
 </ul>
-<a id="more"></a>
 <h1 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h1><ul>
 <li><p>Serializable接口，serialVersionUID的作用？（保持序列化和反序列化过程中的对象一致）手动指定</p>
 <p>  1.静态成员变量属于类不属于对象，所以不会参与序列化过程</p>
@@ -319,7 +298,7 @@
 <li><p>Serializable是Java中的序列化接口，<strong>使用起来简单但是开销很大</strong>，序列化和反序列化过程需要<strong>大量的I/O操作</strong>，Parcelable是Android中的序列化方式，更适用Android，使用起来稍微麻烦，但是<strong>效率很高</strong>，Android推荐</p>
 </li>
 </ul>
-<h1 id="BInder"><a href="#BInder" class="headerlink" title="BInder"></a>BInder</h1><ul>
+<h1 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h1><ul>
 <li><p>从Android Framework角度来说，Binder是ServiceManager连接各种Manager（ActivityManager、WindowManager等等）和相应ManagerService的桥梁</p>
 </li>
 <li><p>从Android应用层来说，Binder是客户端和服务端进行通信的媒介</p>
@@ -551,7 +530,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#序列化"><span class="nav-number">2.</span> <span class="nav-text">序列化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BInder"><span class="nav-number">3.</span> <span class="nav-text">BInder</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AIDL"><span class="nav-number">4.</span> <span class="nav-text">AIDL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Binder连接池"><span class="nav-number">5.</span> <span class="nav-text">Binder连接池</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不同的IPC方式的比较"><span class="nav-number">6.</span> <span class="nav-text">不同的IPC方式的比较</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#感谢"><span class="nav-number">7.</span> <span class="nav-text">感谢</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程与线程"><span class="nav-number">2.</span> <span class="nav-text">进程与线程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#序列化"><span class="nav-number">3.</span> <span class="nav-text">序列化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Binder"><span class="nav-number">4.</span> <span class="nav-text">Binder</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AIDL"><span class="nav-number">5.</span> <span class="nav-text">AIDL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Binder连接池"><span class="nav-number">6.</span> <span class="nav-text">Binder连接池</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不同的IPC方式的比较"><span class="nav-number">7.</span> <span class="nav-text">不同的IPC方式的比较</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#感谢"><span class="nav-number">8.</span> <span class="nav-text">感谢</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
