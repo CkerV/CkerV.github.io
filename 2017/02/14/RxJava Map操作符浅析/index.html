@@ -1,0 +1,695 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,RxJava," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="前言在RxJava中Map操作符主要的作用是对Observable发射的每一项数据应用一个函数，执行变换操作Map操作符对原始Observable发射的每一项数据应用一个你选择的函数，然后返回一个发射这些结果的Observable
+现对其源码进行简单的分析:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava Map操作符浅析">
+<meta property="og:url" content="http://yoursite.com/2017/02/14/RxJava Map操作符浅析/index.html">
+<meta property="og:site_name" content="CkerV's Blog">
+<meta property="og:description" content="前言在RxJava中Map操作符主要的作用是对Observable发射的每一项数据应用一个函数，执行变换操作Map操作符对原始Observable发射的每一项数据应用一个你选择的函数，然后返回一个发射这些结果的Observable
+现对其源码进行简单的分析:">
+<meta property="og:image" content="http://img.blog.csdn.net/20161021103125281">
+<meta property="og:image" content="http://yoursite.com/file:///var/folders/ky/t5tzl61j7xs8p6jxqf492swr0000gn/T/cn.wiz.wiznoteformac/WizNote/a2925e4f-06e4-4a91-ad8a-69fed1b1c671/index_files/d955384f-5d6b-4711-bf2b-fe0a39916ce2.png">
+<meta property="og:image" content="http://www.jcodecraeer.com/uploads/20151012/1444623690430231.gif">
+<meta property="og:updated_time" content="2017-02-27T09:42:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxJava Map操作符浅析">
+<meta name="twitter:description" content="前言在RxJava中Map操作符主要的作用是对Observable发射的每一项数据应用一个函数，执行变换操作Map操作符对原始Observable发射的每一项数据应用一个你选择的函数，然后返回一个发射这些结果的Observable
+现对其源码进行简单的分析:">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20161021103125281">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> RxJava Map操作符浅析 | CkerV's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">CkerV's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-question-circle fa-fw"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                RxJava Map操作符浅析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-02-14T17:13:12+08:00" content="2017-02-14">
+              2017-02-14
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在RxJava中Map操作符主要的作用是对Observable发射的每一项数据应用一个函数，执行变换操作<br><img src="http://img.blog.csdn.net/20161021103125281" alt="Map操作符"><br>Map操作符对原始Observable发射的每一项数据应用一个你选择的函数，然后返回一个发射这些结果的Observable</p>
+<p>现对其源码进行简单的分析:</p>
+<a id="more"></a>
+<h1 id="外部调用"><a href="#外部调用" class="headerlink" title="外部调用"></a>外部调用</h1><figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">.<span class="built_in">map</span>(<span class="literal">new</span> Func1&lt;MeizhiData, <span class="built_in">List</span>&lt;Meizhi&gt;&gt;() &#123;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            <span class="keyword">public</span> <span class="built_in">List</span>&lt;Meizhi&gt; call(MeizhiData meizhiData) &#123;</div><div class="line">                <span class="keyword">return</span> meizhiData.results;</div><div class="line">            &#125;</div></pre></td></tr></table></figure>
+<h1 id="map方法源码"><a href="#map方法源码" class="headerlink" title="map方法源码"></a>map方法源码</h1><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> &lt;<span class="type">R</span>&gt; <span class="type">Observable</span>&lt;<span class="type">R</span>&gt; <span class="built_in">map</span>(<span class="type">Func1</span>&lt;? <span class="keyword">super</span> <span class="type">T</span>, ? extends <span class="type">R</span>&gt; <span class="function"><span class="keyword">func</span>) </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> lift(new <span class="type">OperatorMap</span>&lt;<span class="type">T</span>, <span class="type">R</span>&gt;(<span class="function"><span class="keyword">func</span>));</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这里调用lift方法返回，可以看到lift方法入参构造了一个<strong>OperatorMap</strong>对象，构造入参为func，也就是我们外部定义的变换函数</p>
+<h1 id="OperatorMap"><a href="#OperatorMap" class="headerlink" title="OperatorMap"></a>OperatorMap</h1><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">OperatorMap</span><span class="params">(Func1&lt;? <span class="keyword">super</span> T, ? <span class="keyword">extends</span> R&gt; transformer)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.transformer = transformer;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="keyword">public</span> Subscriber&lt;? <span class="keyword">super</span> T&gt; call(<span class="keyword">final</span> Subscriber&lt;? <span class="keyword">super</span> R&gt; o) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Subscriber&lt;T&gt;(o) &#123;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onCompleted</span><span class="params">()</span> </span>&#123;</div><div class="line">            o.onCompleted();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line">            o.onError(e);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onNext</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                o.onNext(transformer.call(t));</div><div class="line">            &#125; <span class="keyword">catch</span> (Throwable e) &#123;</div><div class="line">                Exceptions.throwIfFatal(e);</div><div class="line">                onError(OnErrorThrowable.addValueAsLastCause(e, t));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里看到我们将外部定义的func变换函数保存为transformer成员变量，并且在OperatorMap的call方法中new了一个新的subscriber返回，注意onNext方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                o.onNext(transformer.call(t));</div><div class="line">            &#125; <span class="keyword">catch</span> (Throwable e) &#123;</div><div class="line">                Exceptions.throwIfFatal(e);</div><div class="line">                onError(OnErrorThrowable.addValueAsLastCause(e, t));</div><div class="line">            &#125;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>这里调用transformer（即func）的call方法完成变换，并且传进o.onNext方法中，这个o是什么呢，别急，往下看~</p>
+<h1 id="lift方法源码"><a href="#lift方法源码" class="headerlink" title="lift方法源码"></a>lift方法源码</h1><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> &lt;R&gt; Observable&lt;R&gt; lift(<span class="keyword">final</span> Operator&lt;? <span class="keyword">extends</span> R, ? <span class="keyword">super</span> T&gt; lift) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Observable&lt;R&gt;(<span class="keyword">new</span> OnSubscribe&lt;R&gt;() &#123;</div><div class="line">        @Override</div><div class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="keyword">call</span>(Subscriber&lt;? <span class="keyword">super</span> R&gt; o) &#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                Subscriber&lt;? <span class="keyword">super</span> T&gt; st = hook.onLift(lift).<span class="keyword">call</span>(o);</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="comment">// new Subscriber created and being subscribed with so 'onStart' it</span></div><div class="line">                    st.onStart();</div><div class="line">                    onSubscribe.<span class="keyword">call</span>(st);</div><div class="line">                &#125; <span class="keyword">catch</span> (Throwable e) &#123;</div><div class="line">                    <span class="comment">// localized capture of errors rather than it skipping all operators </span></div><div class="line">                    <span class="comment">// and ending up in the try/catch of the subscribe method which then</span></div><div class="line">                    <span class="comment">// prevents onErrorResumeNext and other similar approaches to error handling</span></div><div class="line">                    <span class="keyword">if</span> (e <span class="keyword">instanceof</span> OnErrorNotImplementedException) &#123;</div><div class="line">                        <span class="keyword">throw</span> (OnErrorNotImplementedException) e;</div><div class="line">                    &#125;</div><div class="line">                    st.onError(e);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (Throwable e) &#123;</div><div class="line">                <span class="keyword">if</span> (e <span class="keyword">instanceof</span> OnErrorNotImplementedException) &#123;</div><div class="line">                    <span class="keyword">throw</span> (OnErrorNotImplementedException) e;</div><div class="line">                &#125;</div><div class="line">                <span class="comment">// if the lift function failed all we can do is pass the error to the final Subscriber</span></div><div class="line">                <span class="comment">// as we don't have the operator available to us</span></div><div class="line">                o.onError(e);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到，lift方法new了一个新的Observable返回，注意在call方法中的关键操作：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">Subscriber&lt;? </span>super T&gt; st = hook.onLift(lift).call(o)<span class="comment">;</span></div><div class="line">st.onStart()<span class="comment">;</span></div><div class="line">onSubscribe.call(st)<span class="comment">;</span></div></pre></td></tr></table></figure>
+<p>这里调用hook.onLift方法返回了一个Operator对象，实际上就是我们在第三点分析的OperatorMap，然后调用call方法返回新的subscriber对象，再调用onSubscribe.call(st)使新的subscriber与旧的Observable.onSubscribe相关联</p>
+<h1 id="代码调用流程"><a href="#代码调用流程" class="headerlink" title="代码调用流程"></a>代码调用流程</h1><p>1.外部调用suscribe方法，此时已经创建了一个新的subscriber，取名为o </p>
+<p>2.调用onSubscribe.call方法，此时的onSubscribe是新的onSubscribe，根据外部的o生成新的st(未变换)</p>
+<p>3.调用onSubscribe.call(st)，此时的onSubscribe是旧的</p>
+<p>4.调用st.onNext()方法完成内部的变换</p>
+<p>5.再调用o.onNext方法实现外部subscriber的处理</p>
+<h1 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h1><p><img src="file:///var/folders/ky/t5tzl61j7xs8p6jxqf492swr0000gn/T/cn.wiz.wiznoteformac/WizNote/a2925e4f-06e4-4a91-ad8a-69fed1b1c671/index_files/d955384f-5d6b-4711-bf2b-fe0a39916ce2.png" alt="lift() 原理图"></p>
+<p><img src="http://www.jcodecraeer.com/uploads/20151012/1444623690430231.gif" alt="lift 原理动图"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/RxJava/" rel="tag">#RxJava</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/24/用RxJava实现事件总线/" rel="next" title="用RxJava实现事件总线">
+                <i class="fa fa-chevron-left"></i> 用RxJava实现事件总线
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/my.jpg"
+               alt="CkerV" />
+          <p class="site-author-name" itemprop="name">CkerV</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+          
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#外部调用"><span class="nav-number">2.</span> <span class="nav-text">外部调用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#map方法源码"><span class="nav-number">3.</span> <span class="nav-text">map方法源码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OperatorMap"><span class="nav-number">4.</span> <span class="nav-text">OperatorMap</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lift方法源码"><span class="nav-number">5.</span> <span class="nav-text">lift方法源码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码调用流程"><span class="nav-number">6.</span> <span class="nav-text">代码调用流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图解"><span class="nav-number">7.</span> <span class="nav-text">图解</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CkerV</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+  
+
+
+</body>
+</html>
