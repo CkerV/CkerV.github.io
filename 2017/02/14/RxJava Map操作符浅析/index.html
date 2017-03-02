@@ -66,9 +66,8 @@
 <meta property="og:description" content="前言在RxJava中Map操作符主要的作用是对Observable发射的每一项数据应用一个函数，执行变换操作Map操作符对原始Observable发射的每一项数据应用一个你选择的函数，然后返回一个发射这些结果的Observable
 现对其源码进行简单的分析:">
 <meta property="og:image" content="http://img.blog.csdn.net/20161021103125281">
-<meta property="og:image" content="http://yoursite.com/file:///var/folders/ky/t5tzl61j7xs8p6jxqf492swr0000gn/T/cn.wiz.wiznoteformac/WizNote/a2925e4f-06e4-4a91-ad8a-69fed1b1c671/index_files/d955384f-5d6b-4711-bf2b-fe0a39916ce2.png">
 <meta property="og:image" content="http://www.jcodecraeer.com/uploads/20151012/1444623690430231.gif">
-<meta property="og:updated_time" content="2017-02-27T09:42:42.000Z">
+<meta property="og:updated_time" content="2017-02-27T09:43:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RxJava Map操作符浅析">
 <meta name="twitter:description" content="前言在RxJava中Map操作符主要的作用是对Observable发射的每一项数据应用一个函数，执行变换操作Map操作符对原始Observable发射的每一项数据应用一个你选择的函数，然后返回一个发射这些结果的Observable
@@ -281,8 +280,7 @@
 <p>3.调用onSubscribe.call(st)，此时的onSubscribe是旧的</p>
 <p>4.调用st.onNext()方法完成内部的变换</p>
 <p>5.再调用o.onNext方法实现外部subscriber的处理</p>
-<h1 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h1><p><img src="file:///var/folders/ky/t5tzl61j7xs8p6jxqf492swr0000gn/T/cn.wiz.wiznoteformac/WizNote/a2925e4f-06e4-4a91-ad8a-69fed1b1c671/index_files/d955384f-5d6b-4711-bf2b-fe0a39916ce2.png" alt="lift() 原理图"></p>
-<p><img src="http://www.jcodecraeer.com/uploads/20151012/1444623690430231.gif" alt="lift 原理动图"></p>
+<h1 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h1><p><img src="http://www.jcodecraeer.com/uploads/20151012/1444623690430231.gif" alt="lift 原理动图"></p>
 
       
     </div>
@@ -315,6 +313,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/20/AsyncTask源码再总结/" rel="prev" title="AsyncTask源码再总结">
+                AsyncTask源码再总结 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -382,7 +384,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
