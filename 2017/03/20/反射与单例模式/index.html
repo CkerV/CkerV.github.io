@@ -1,0 +1,695 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="前言在面试的时候被问到反射是否可以获取一个单例，当时回答得比较含糊，故现在补充一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="反射与单例模式">
+<meta property="og:url" content="http://yoursite.com/2017/03/20/反射与单例模式/index.html">
+<meta property="og:site_name" content="CkerV's Blog">
+<meta property="og:description" content="前言在面试的时候被问到反射是否可以获取一个单例，当时回答得比较含糊，故现在补充一下。">
+<meta property="og:updated_time" content="2017-03-20T06:05:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="反射与单例模式">
+<meta name="twitter:description" content="前言在面试的时候被问到反射是否可以获取一个单例，当时回答得比较含糊，故现在补充一下。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> 反射与单例模式 | CkerV's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">CkerV's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-question-circle fa-fw"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                反射与单例模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-03-20T14:03:32+08:00" content="2017-03-20">
+              2017-03-20
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在面试的时候被问到反射是否可以获取一个单例，当时回答得比较含糊，故现在补充一下。<br><a id="more"></a></p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>Java中的反射技术可以获取类的所有方法、成员变量、还能访问private的构造方法，这样一来，单例模式中用的私有构造函数被调用就会产生多个实例，编写代码测试一下。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">package</span> test;  </div><div class="line">  </div><div class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;  </div><div class="line">  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingetonTest</span> </span>&#123;  </div><div class="line">  </div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> SingetonTest singleton = <span class="keyword">null</span>;  </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> s = <span class="number">0</span>;  </div><div class="line">      </div><div class="line">    <span class="comment">// 构造方法是私有的  </span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SingetonTest</span><span class="params">()</span></span>&#123;&#125;  </div><div class="line">      </div><div class="line">    <span class="comment">// 同步的获取实例方法  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> SingetonTest <span class="title">getInstance</span><span class="params">()</span></span>&#123;  </div><div class="line">        <span class="comment">// 懒汉模式的单例方法  </span></div><div class="line">        <span class="keyword">if</span>(<span class="keyword">null</span> == singleton)&#123;  </div><div class="line">            singleton = <span class="keyword">new</span> SingetonTest();  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> singleton;  </div><div class="line">    &#125;  </div><div class="line">      </div><div class="line">      </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getS</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> s;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setS</span><span class="params">(<span class="keyword">int</span> s)</span> </span>&#123;  </div><div class="line">        <span class="keyword">this</span>.s = s;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="comment">/** </span></div><div class="line">     * <span class="doctag">@param</span> args </div><div class="line">     */  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </div><div class="line">        <span class="keyword">try</span> &#123;  </div><div class="line">            Constructor con = SingetonTest.class.getDeclaredConstructor();  </div><div class="line">            con.setAccessible(<span class="keyword">true</span>);  </div><div class="line">            <span class="comment">// 通过反射获取实例  </span></div><div class="line">            SingetonTest singetonTest1 = (SingetonTest)con.newInstance();  </div><div class="line">            SingetonTest singetonTest2 = (SingetonTest)con.newInstance();  </div><div class="line">            <span class="comment">// 常规方法获取实例  </span></div><div class="line">            SingetonTest singetonTest3 = SingetonTest.getInstance();  </div><div class="line">            SingetonTest singetonTest4 = SingetonTest.getInstance();  </div><div class="line">            <span class="comment">// 测试输出  </span></div><div class="line">            System.out.println(<span class="string">"singetonTest1.equals(singetonTest2) :"</span> +  singetonTest1.equals(singetonTest2));  </div><div class="line">            System.out.println(<span class="string">"singetonTest3.equals(singetonTest4) :"</span> +  singetonTest3.equals(singetonTest4));  </div><div class="line">            System.out.println(<span class="string">"singetonTest1.equals(singetonTest3) :"</span> +  singetonTest1.equals(singetonTest3));  </div><div class="line">            singetonTest1.setS(<span class="number">1</span>);  </div><div class="line">            singetonTest2.setS(<span class="number">2</span>);  </div><div class="line">            singetonTest3.setS(<span class="number">3</span>);  </div><div class="line">            singetonTest4.setS(<span class="number">4</span>);  </div><div class="line">            System.out.println(<span class="string">"1:"</span> + singetonTest1.getS() + <span class="string">"  2:"</span> + singetonTest2.getS()+ <span class="string">"  3:"</span> + singetonTest3.getS()+ <span class="string">"  4:"</span> + singetonTest4.getS());  </div><div class="line">              </div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </div><div class="line">            <span class="comment">// TODO Auto-generated catch block  </span></div><div class="line">            e.printStackTrace();  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到，通过<code>newInstance</code>是可以获取到单例对象的。</p>
+<p>测试结果：</p>
+<blockquote>
+<p>singetonTest1.equals(singetonTest2) :false<br>singetonTest3.equals(singetonTest4) :true<br>singetonTest1.equals(singetonTest3) :false<br>1:1  2:2  3:4  4:4</p>
+</blockquote>
+<p>通过反射技术生成的两个实例不同，通过常规方法获取的两个实例相同（即同一个实例，单例）。</p>
+<h1 id="防止"><a href="#防止" class="headerlink" title="防止"></a>防止</h1><p>那么该如何防止反射破坏单例模式呢？</p>
+<p>构造函数调用时进行处理，当构造函数第2次被调用时抛出异常！修改构造方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;  </div><div class="line">      </div><div class="line">    <span class="comment">// 构造方法是私有的  </span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SingetonTest</span><span class="params">()</span></span>&#123;  </div><div class="line">        <span class="keyword">if</span>(flag)&#123;  </div><div class="line">            flag = !flag;  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">else</span>&#123;  </div><div class="line">            <span class="keyword">try</span> &#123;  </div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"duplicate instance create error!"</span> + SingetonTest.class.getName());  </div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;  </div><div class="line">                <span class="comment">// TODO Auto-generated catch block  </span></div><div class="line">                e.printStackTrace();  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p>1.单例模式是为了保证一个类只有一个实例，整个系统只能自己创建一个实例。应用在数据库连接或单个队列处理问题。</p>
+<p>2.单例模式构造，懒汉式以<strong>时间换空间</strong>（用的时候才生产实例，每次都判断）；恶汉式以空间换时间，直接创建实例，以后不用判断直接用。</p>
+<p>3.懒汉模式线程安全问题，获取实例的办法要加上<strong>synchronized</strong>进行同步。</p>
+<p>4.Java的反射技术不要用于实例创建，反射主要用于spring的IOC，hibernate和白盒测试。</p>
+<h1 id="反射的利与弊小结"><a href="#反射的利与弊小结" class="headerlink" title="反射的利与弊小结"></a>反射的利与弊小结</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li><p>能够运行时动态获取类的实例，大大提高系统的灵活性和扩展性</p>
+</li>
+<li><p>与Java动态编译相结合，可以实现无比强大的功能</p>
+</li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li><p>使用反射的性能相对较低</p>
+</li>
+<li><p>使用反射相对来说不安全</p>
+</li>
+<li><p>破坏了类的封装性，可以通过反射获取这个类的私有方法和属性</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag">#Java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/20/AsyncTask源码再总结/" rel="next" title="AsyncTask源码再总结">
+                <i class="fa fa-chevron-left"></i> AsyncTask源码再总结
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/my.jpg"
+               alt="CkerV" />
+          <p class="site-author-name" itemprop="name">CkerV</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+          
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试"><span class="nav-number">2.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#防止"><span class="nav-number">3.</span> <span class="nav-text">防止</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#补充"><span class="nav-number">4.</span> <span class="nav-text">补充</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#反射的利与弊小结"><span class="nav-number">5.</span> <span class="nav-text">反射的利与弊小结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">5.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-number">5.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CkerV</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+  
+
+
+</body>
+</html>
