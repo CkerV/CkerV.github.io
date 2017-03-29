@@ -1,0 +1,759 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="前言首先，用一句话来概括一下Android应用程序显示的过程：
+Android应用程序调用SurfaceFlinger服务把经过测量、布局和绘制后的Surface渲染到显示屏幕上。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="View绘制浅析">
+<meta property="og:url" content="http://yoursite.com/2017/03/29/View绘制浅析/index.html">
+<meta property="og:site_name" content="CkerV's Blog">
+<meta property="og:description" content="前言首先，用一句话来概括一下Android应用程序显示的过程：
+Android应用程序调用SurfaceFlinger服务把经过测量、布局和绘制后的Surface渲染到显示屏幕上。">
+<meta property="og:image" content="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%201.png">
+<meta property="og:image" content="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%202.png">
+<meta property="og:image" content="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%203.png">
+<meta property="og:image" content="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%204.png">
+<meta property="og:image" content="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%205.png">
+<meta property="og:image" content="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%206.png">
+<meta property="og:image" content="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%207.png">
+<meta property="og:image" content="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%208.png">
+<meta property="og:image" content="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%209.png">
+<meta property="og:updated_time" content="2017-03-29T04:37:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="View绘制浅析">
+<meta name="twitter:description" content="前言首先，用一句话来概括一下Android应用程序显示的过程：
+Android应用程序调用SurfaceFlinger服务把经过测量、布局和绘制后的Surface渲染到显示屏幕上。">
+<meta name="twitter:image" content="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%201.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> View绘制浅析 | CkerV's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">CkerV's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-question-circle fa-fw"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                View绘制浅析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-03-29T11:16:04+08:00" content="2017-03-29">
+              2017-03-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>首先，用一句话来概括一下Android应用程序显示的过程：<br></p>
+<p><strong>Android应用程序调用SurfaceFlinger服务把经过测量、布局和绘制后的Surface渲染到显示屏幕上。</strong></p>
+<a id="more"></a>
+<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
+<li><p><strong>SurfaceFlinger</strong>：Android系统服务，负责管理Android系统的帧缓冲器，即显示屏幕。</p>
+</li>
+<li><p><strong>Surface</strong>：Android应用的每个窗口对应一个画布(<strong>Canvas</strong>)，即Surface，可以理解为Android应用程序的一个窗口。</p>
+</li>
+</ul>
+<h1 id="两个部分及两个机制"><a href="#两个部分及两个机制" class="headerlink" title="两个部分及两个机制"></a>两个部分及两个机制</h1><p>Android应用程序的显示过程包含了两个部分：</p>
+<ul>
+<li><p>应用侧绘制</p>
+</li>
+<li><p>应用侧渲染</p>
+</li>
+</ul>
+<p>两个机制：</p>
+<ul>
+<li><p>进程间通讯机制</p>
+</li>
+<li><p>显示刷新机制</p>
+</li>
+</ul>
+<h1 id="应用侧绘制"><a href="#应用侧绘制" class="headerlink" title="应用侧绘制"></a>应用侧绘制</h1><p>首先，我们来了解下View的层级结构，如下图</p>
+<center><br><br><img src="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%201.png" alt="View层级结构"><br><br></center>
+
+
+
+<p>一个Android应用程序窗口里面包含了很多UI元素，这些UI元素是以<strong>树形结构</strong>来组织的，即他们存在着父子关系，其中子UI元素位于父UI元素里。因此，在绘制一个Android应用程序的窗口的UI之前，我们首先要确定它里面的各个子UI元素在父UI元素里面的大小以及位置。确定各个子UI元素在父UI元素里面的大小以及位置的过程又称为测量过程（<code>measure</code>）和布局(<code>layout</code>)过程。因此，Android应用程序窗口的UI渲染过程可以分为<strong>测量</strong>、<strong>布局</strong>和<strong>绘制</strong>三个阶段。</p>
+<center><br><br><img src="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%202.png" alt="View的应用侧绘制流程"><br><br></center>
+
+
+
+<ul>
+<li><p>Measure（测量）：递归（深度优先）确定所有视图的大小（高、宽）</p>
+</li>
+<li><p>Layout(布局)：递归（深度优先）确定所有试图的位置（以左上角坐标为基准）</p>
+</li>
+<li><p>draw（绘制）：在画布Canvas上绘制应用程序窗口所有的视图</p>
+</li>
+</ul>
+<h1 id="系统侧绘制"><a href="#系统侧绘制" class="headerlink" title="系统侧绘制"></a>系统侧绘制</h1><p>Android应用程序在图形缓冲区中绘制好View层次结构后，这个图形缓冲区会被交给SurfaceFlinger服务，而SurfaceFlinger服务再使用<strong>OpenGL图形库AP</strong>I来将这个图形缓冲区渲染到硬件帧缓冲区中。</p>
+<h2 id="进程间通讯机制"><a href="#进程间通讯机制" class="headerlink" title="进程间通讯机制"></a>进程间通讯机制</h2><p>Android应用程序为了能够将自己的UI绘制在系统的帧缓冲区上，它们就必须要与SurfaceFlinger服务进行通信，如图所示：</p>
+<center><br><br><img src="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%203.png" alt="APP与SurfaceFlinger"><br><br></center>
+
+<p>Android应用程序与SurfaceFlinger服务是运行在不同的进程中的，因此，它们采用某种进程间通信机制来进行通信。由于Android应用程序在通知SurfaceFlinger服务来绘制自己的UI的时候，需要将UI数据传递给SurfaceFlinger服务，例如，要绘制UI的区域、位置等信息。一个Android应用程序可能会有很多个窗口，而每一个窗口都有自己的UI数据，因此，Android系统的<strong>匿名共享内存机制</strong>就派上用场了。</p>
+<center><br><br><img src="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%204.png" alt="匿名共享内存机制"><br><br></center>
+
+<p>每一个Android应用程序与SurfaceFlinger服务之间，都会通过一块匿名共享内存来传递UI数据，但是单纯的匿名共享内存在传递多个窗口数据时缺乏有效的管理，所以匿名共享内存就被抽象为一个更上流的数据结构<code>SharedClient</code>，如下图所示：</p>
+<center><br><br><img src="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%205.png" alt="SharedClient"><br><br></center>
+
+<p>在每个SharedClient中，最多有31个SharedBufferStack，每个SharedBufferStack都对应一个Surface，即一个窗口。每个Android应用程序可能拥有多个窗口，从这里可以看出，一个Android程序<strong>至多可以包含31个窗口</strong>。</p>
+<p>每个SharedBufferStack中又包含了N个缓冲区（SDKVersion &lt; 4.1，N = 2; SDKVersion &gt;= 4.1，N = 3）,即显示刷新机制中即将提到的<strong>双缓冲</strong>和<strong>三重缓冲</strong>技术。</p>
+<h2 id="显示刷新机制"><a href="#显示刷新机制" class="headerlink" title="显示刷新机制"></a>显示刷新机制</h2><p>一般我们在绘制UI的时候，都会采用一种称为“双缓冲”的技术。双缓冲意味着要使用两个缓冲区（SharedBufferStack中），其中一个称为Front Buffer，另外一个称为Back Buffer。UI总是先在Back Buffer中绘制，然后再和Front Buffer交换，渲染到显示设备中。理想情况下，这样一个刷新会在16ms内完成（60FPS），下图就是描述的这样一个刷新过程（Display处理前Front Buffer，CPU、GPU处理Back Buffer。然而，现实中总会出现“卡顿”的状况：</p>
+<center><br><br><img src="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%206.png" alt="理想状况"><br><br></center>
+
+
+
+<p>1.时间从0开始，进入第一个16ms：Display显示第0帧，CPU处理完第一帧后，GPU紧接其后处理继续第一帧。三者互不干扰，一切正常。<br></p>
+<p>2.时间进入第二个16ms：因为早在上一个16ms时间内，第1帧已经由CPU，GPU处理完毕。故Display可以直接显示第1帧。显示没有问题。但在本16ms期间，CPU和GPU却并未及时去绘制第2帧数据（注意前面的空白区），而是在本周期快结束时，CPU/GPU才去处理第2帧数据。<br></p>
+<p>3.时间进入第3个16ms，此时Display应该显示第2帧数据，但由于CPU和GPU还没有处理完第2帧数据，故Display只能继续显示第一帧的数据，结果使得第1帧多画了一次（对应时间段上标注了一个Jank）。<br></p>
+<p>通过上述分析可知，此处发生Jank的关键问题在于，为何第1个16ms段内，CPU/GPU没有及时处理第2帧数据？原因很简单，CPU可能是在忙别的事情，不知道该到处理UI绘制的时间了。可CPU一旦想起来要去处理第2帧数据，时间又错过了！</p>
+<p>为了解决这个问题，<strong>Android 4.1</strong>引入了<strong>VSNYC</strong>机制，如下所示</p>
+<center><br><br><img src="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%207.png" alt="Android 4.1中的VSNYC机制"><br><br></center>
+
+<p>可以看到，这种机制类似于时钟中断，每收到VSYNC中断，CPU就开始处理各帧数据。整个过程非常完美。不过，仔细琢磨后却会发现一个新问题：上图中，CPU和GPU处理数据的速度似乎都能在16ms内完成，而且还有时间空余，也就是说，CPU/GPU的FPS（帧率，Frames Per Second）要高于Display的FPS。确实如此。由于CPU/GPU只在收到VSYNC时才开始数据处理，故它们的FPS被拉低到与Display的FPS相同。但这种处理并没有什么问题，因为Android设备的Display FPS一般是60，其对应的显示效果非常平滑。</p>
+<p>如果CPU/GPU的FPS小于display的FPS，会是什么情况呢？请看下图：</p>
+<center><br><br><img src="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%208.png" alt="CPU/GPU的FPS小于display的FPS"><br><br></center>
+
+<p>由上图可知：<br></p>
+<p>1.在第二个16ms时间段，Display本应显示B帧，但却因为GPU还在处理B帧，导致A帧被重复显示。<br></p>
+<p>2.同理，在第二个16ms时间段内，CPU无所事事，因为A Buffer被Display在使用。B Buffer被GPU在使用。注意，一旦过了VSYNC时间点，CPU就不能被触发以处理绘制工作了。<br></p>
+<p>为什么CPU不能在第二个16ms处开始绘制工作呢？原因就是只有两个Buffer（Android 4.1之前）。如果有第三个Buffer的存在，CPU就能直接使用它，而不至于空闲。出于这一思路就引出了<strong>三重缓冲区（Android 4.1）</strong>。</p>
+<h3 id="三缓冲机制"><a href="#三缓冲机制" class="headerlink" title="三缓冲机制"></a>三缓冲机制</h3><p><img src="http://onk4kn35w.bkt.clouddn.com/ckerv/images/17-3-29/%E5%9B%BE%E7%89%87%209.png" alt="三缓冲机制"></p>
+<p>由上图可知：</p>
+<p>第二个16ms时间段，CPU使用C Buffer绘图。虽然还是会多显示A帧一次，但后续显示就比较顺畅了。</p>
+<p>是不是Buffer越多越好呢？回答是否定的。由上图可知，在第二个时间段内，CPU绘制的第C帧数据要到第四个16ms才能显示，这比双Buffer情况多了16ms延迟。所以，Buffer最好还是两个，三个足矣。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>1.View的绘制包括应用侧绘制和系统侧绘制；</p>
+<p>2.应用侧绘制进行View的测量、布局和绘制，然后将绘制好的View的层次结构通过进程间通讯机制交给SurfaceFlinger服务；</p>
+<p>3.SurfaceFlinger通过SharedBufferStack的双缓冲/VSYNC/三缓冲技术将View渲染到硬件缓冲区上。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>以上是根据师兄分享，结合网上资料以及个人的理解加以总结而成，若有不足之处请批评指正，欢迎交流O(∩_∩)O！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/20/反射与单例模式/" rel="next" title="反射与单例模式">
+                <i class="fa fa-chevron-left"></i> 反射与单例模式
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/my.jpg"
+               alt="CkerV" />
+          <p class="site-author-name" itemprop="name">CkerV</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+          
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#名词解释"><span class="nav-number">1.1.</span> <span class="nav-text">名词解释</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#两个部分及两个机制"><span class="nav-number">2.</span> <span class="nav-text">两个部分及两个机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用侧绘制"><span class="nav-number">3.</span> <span class="nav-text">应用侧绘制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统侧绘制"><span class="nav-number">4.</span> <span class="nav-text">系统侧绘制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#进程间通讯机制"><span class="nav-number">4.1.</span> <span class="nav-text">进程间通讯机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显示刷新机制"><span class="nav-number">4.2.</span> <span class="nav-text">显示刷新机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三缓冲机制"><span class="nav-number">4.2.1.</span> <span class="nav-text">三缓冲机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CkerV</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+  
+
+
+</body>
+</html>
